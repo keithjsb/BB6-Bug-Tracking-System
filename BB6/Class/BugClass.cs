@@ -194,5 +194,24 @@ namespace BB6
 
             return dt;
         }
+        public DataTable getDevelopers()
+        {
+            DatabaseClass db = new DatabaseClass();
+            MySqlConnection conn = db.getConnection();
+            conn.Open();
+
+            MySqlCommand cmd = conn.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "SELECT * FROM UserDetails WHERE type = 'D'";
+            cmd.Connection = conn;
+
+            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            conn.Close();
+
+            return dt;
+        }
     }
 }

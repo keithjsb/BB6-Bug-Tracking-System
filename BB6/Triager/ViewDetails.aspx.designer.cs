@@ -7,11 +7,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace BB6.Developer
+namespace BB6.Triager
 {
 
 
-    public partial class DetailedPage
+    public partial class ViewDetails
     {
 
         /// <summary>

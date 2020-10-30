@@ -83,6 +83,7 @@
     <Content Include="Triager\GenerateReport.aspx" />
     <Content Include="Triager\Home.aspx" />
     <Content Include="Triager\ManageBugs.aspx" />
+    <Content Include="Triager\ViewDetails.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -209,6 +210,13 @@
       <DependentUpon>Triager.Master</DependentUpon>
     </Compile>
     <Compile Include="Class\UserClass.cs" />
+    <Compile Include="Triager\ViewDetails.aspx.cs">
+      <DependentUpon>ViewDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Triager\ViewDetails.aspx.designer.cs">
+      <DependentUpon>ViewDetails.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="BugReporter\BugReporter.Master" />

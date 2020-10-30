@@ -4,9 +4,9 @@ using MySql.Data.MySqlClient;
 using System.Data;
 using System.Web.UI.WebControls;
 
-namespace BB6.Developer
+namespace BB6.Triager
 {
-    public partial class DetailedPage : System.Web.UI.Page
+    public partial class ViewDetails : System.Web.UI.Page
     {
         MySqlConnection con;
         DataTable dt = new DataTable();
@@ -24,6 +24,7 @@ namespace BB6.Developer
         {
             if (!Page.IsPostBack)
             {
+                /*
                 con = db.getConnection();
                 con.Open();
 
@@ -37,18 +38,18 @@ namespace BB6.Developer
 
                 DataTable dt = new DataTable();
                 da.Fill(dt);
-
+                */
                 DropDownList3.DataSource = dt;
                 DropDownList3.DataTextField = "username";
                 DropDownList3.DataValueField = "username";
                 DropDownList3.DataBind();
-                con.Close();
+                //con.Close();
             }
         
 
 
             id = Request.QueryString["id"];
-            BugClass a = new BugClass("1000");
+            BugClass a = new BugClass(id);
 
             Idlabel.Text = id.ToString();
             TitleLabel.Text = a.getTitle();
@@ -72,7 +73,7 @@ namespace BB6.Developer
             DropDownList2.Items.Insert(6, new ListItem("Closed (Resolved)", "Closed (Resolved)"));
 
             string assignee = a.getAssignee();
-            //DropDownList3.Items.Insert(0, new ListItem(assignee, assignee));
+            DropDownList3.Items.Insert(0, new ListItem(assignee, assignee));
 
         }
         protected static string GetText(object dataItem)
