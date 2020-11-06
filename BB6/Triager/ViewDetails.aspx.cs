@@ -15,13 +15,18 @@ namespace BB6.Triager
         string id;
 
         protected void Page_Load(object sender, EventArgs e)
-        {
+        { 
             displayBugs();
+            displayComments();
         }
 
 
         private void displayBugs()  
         {
+
+            id = Request.QueryString["id"];
+            BugClass a = new BugClass(id);
+
             if (!Page.IsPostBack)
             {
                 /*
@@ -39,17 +44,12 @@ namespace BB6.Triager
                 DataTable dt = new DataTable();
                 da.Fill(dt);
                 */
-                DropDownList3.DataSource = dt;
+                DropDownList3.DataSource = a.getDevelopers();
                 DropDownList3.DataTextField = "username";
                 DropDownList3.DataValueField = "username";
                 DropDownList3.DataBind();
                 //con.Close();
             }
-        
-
-
-            id = Request.QueryString["id"];
-            BugClass a = new BugClass(id);
 
             Idlabel.Text = id.ToString();
             TitleLabel.Text = a.getTitle();
@@ -76,6 +76,31 @@ namespace BB6.Triager
             DropDownList3.Items.Insert(0, new ListItem(assignee, assignee));
 
         }
+
+        private void displayComments()
+        {
+                DatabaseClass db = new DatabaseClass();
+                MySqlConnection conn = db.getConnection();
+                conn.Open();
+
+                MySqlCommand cmd = conn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT * FROM CommentDetails where comment_bug_id = @bugid";
+                cmd.Parameters.AddWithValue("@bugid", id);
+                cmd.Connection = conn;
+
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+
+
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+
+                Repeater1.DataBind();
+                Repeater1.DataSource = dt;
+                Repeater1.DataBind();
+
+                conn.Close();
+        }
         protected static string GetText(object dataItem)
         {
             // <td><%#GetText(Container.DataItem)%></td>
@@ -89,6 +114,7 @@ namespace BB6.Triager
 
         protected void btnSubmit_Click(object sender, EventArgs e)
         {
+
             con = db.getConnection();
             con.Open();
 
@@ -110,7 +136,33 @@ namespace BB6.Triager
 
             Label1.Text = "Bug Report Updated ";
 
-          //Response.Redirect("ViewDetails.aspx");
         }
+
+        protected void btnComment_Click(object sender, EventArgs e)
+        {
+            string comment = commentBox.Text;
+            string comment_username = Session["loginID"].ToString();
+            DateTime date = DateTime.Now;
+
+            DatabaseClass db = new DatabaseClass();
+            MySqlConnection conn = db.getConnection();
+            conn.Open();
+
+            MySqlCommand cmd = conn.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "INSERT INTO CommentDetails (comment_bug_id,comment_username,comment_date,comment_text) VALUES(@bugid,@comment_username,@comment_date,@comment)";
+            cmd.Parameters.AddWithValue("@bugid", id);
+            cmd.Parameters.AddWithValue("@comment_username", comment_username);
+            cmd.Parameters.AddWithValue("@comment", comment);
+            cmd.Parameters.AddWithValue("@comment_date", date);
+            cmd.Connection = conn;
+            cmd.ExecuteNonQuery();
+            conn.Close();
+
+            Label3.Text = "Comment Added.";
+
+            displayComments();
+        }
+
     }
 }

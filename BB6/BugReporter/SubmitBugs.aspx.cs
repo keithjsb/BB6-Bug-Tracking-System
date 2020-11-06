@@ -20,7 +20,7 @@ namespace BB6.BugReporter
             string title = txtTitle.Text;
             string desc = txtDescription.Text;
             string key = txtKeywords.Text;
-            string bugReporter = "Michael"; //TODO: CHANGE TO DYNAMIC
+            string bugReporter = Session["loginID"].ToString();
             DateTime date = DateTime.Now;
 
             DatabaseClass db = new DatabaseClass();

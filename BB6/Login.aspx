@@ -55,7 +55,7 @@
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-form-label col-3" for="inputDefault">Password</label>
-                                    <asp:TextBox ID="txtPassword" runat="server" CssClass="form-control col-9"></asp:TextBox>
+                                    <asp:TextBox ID="txtPassword" runat="server" CssClass="form-control col-9" TextMode="Password"></asp:TextBox>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-form-label col-3" for="exampleSelect2">User type</label>
