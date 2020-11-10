@@ -178,6 +178,28 @@ namespace BB6
 
             return dt;
         }
+
+        public DataTable getBugsByTitleReviewer(string title, string status)
+        {
+            DatabaseClass db = new DatabaseClass();
+            MySqlConnection conn = db.getConnection();
+            conn.Open();
+
+            MySqlCommand cmd = conn.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "SELECT * FROM BugDetails WHERE status = @status AND title LIKE @title";
+            cmd.Parameters.AddWithValue("@status", status);
+            cmd.Parameters.AddWithValue("@title", "%" + title + "%");
+            cmd.Connection = conn;
+
+            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            conn.Close();
+
+            return dt;
+        }
         public DataTable getBugsByAssignee(string assignee)
         {
             DatabaseClass db = new DatabaseClass();
@@ -219,6 +241,28 @@ namespace BB6
 
             return dt;
         }
+
+        public DataTable getBugsByAssigneeReviewer(string assignee, string status)
+        {
+            DatabaseClass db = new DatabaseClass();
+            MySqlConnection conn = db.getConnection();
+            conn.Open();
+
+            MySqlCommand cmd = conn.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "SELECT * FROM BugDetails WHERE bugreporter = @status AND assignee LIKE @assignee";
+            cmd.Parameters.AddWithValue("@status", status);
+            cmd.Parameters.AddWithValue("@assignee", "%" + assignee + "%");
+            cmd.Connection = conn;
+
+            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            conn.Close();
+
+            return dt;
+        }
         public DataTable getBugsByKeywords(string keywords)
         {
             DatabaseClass db = new DatabaseClass();
@@ -249,6 +293,28 @@ namespace BB6
             cmd.CommandType = CommandType.Text;
             cmd.CommandText = "SELECT * FROM BugDetails WHERE bugreporter = @username AND keywords LIKE @keywords";
             cmd.Parameters.AddWithValue("@username", username);
+            cmd.Parameters.AddWithValue("@keywords", "%" + keywords + "%");
+            cmd.Connection = conn;
+
+            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            conn.Close();
+
+            return dt;
+        }
+
+        public DataTable getBugsByKeywordsReviewer(string keywords, string status)
+        {
+            DatabaseClass db = new DatabaseClass();
+            MySqlConnection conn = db.getConnection();
+            conn.Open();
+
+            MySqlCommand cmd = conn.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "SELECT * FROM BugDetails WHERE bugreporter = @status AND keywords LIKE @keywords";
+            cmd.Parameters.AddWithValue("@status", status);
             cmd.Parameters.AddWithValue("@keywords", "%" + keywords + "%");
             cmd.Connection = conn;
 

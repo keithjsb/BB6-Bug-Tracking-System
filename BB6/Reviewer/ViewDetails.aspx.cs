@@ -4,7 +4,7 @@ using MySql.Data.MySqlClient;
 using System.Data;
 using System.Web.UI.WebControls;
 
-namespace BB6.Triager
+namespace BB6.Reviewer
 {
     public partial class ViewDetails : System.Web.UI.Page
     {
@@ -15,88 +15,56 @@ namespace BB6.Triager
         string id;
 
         protected void Page_Load(object sender, EventArgs e)
-        { 
+        {
             displayBugs();
             displayComments();
         }
 
 
-        private void displayBugs()  
+        private void displayBugs()
         {
 
             id = Request.QueryString["id"];
             BugClass a = new BugClass(id);
-
-            if (!Page.IsPostBack)
-            {
-                /*
-                con = db.getConnection();
-                con.Open();
-
-                MySqlCommand cmd = con.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM UserDetails WHERE type = 'D'";
-                cmd.Connection = con;
-
-                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-
-
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-                */
-                DropDownList3.DataSource = a.getDevelopers();
-                DropDownList3.DataTextField = "username";
-                DropDownList3.DataValueField = "username";
-                DropDownList3.DataBind();
-                //con.Close();
-            }
 
             Idlabel.Text = id.ToString();
             TitleLabel.Text = a.getTitle();
             KeyLabel.Text = a.getKeywords();
             ReporterLabel.Text = a.getBugReporter();
             DateLabel.Text = a.getDateReported().ToString();
-
-            string priority = a.getPriority();
-            DropDownList1.Items.Insert(0, new ListItem(priority, priority));
-            DropDownList1.Items.Insert(1, new ListItem("Low", "Low"));
-            DropDownList1.Items.Insert(2, new ListItem("Medium", "Medium"));
-            DropDownList1.Items.Insert(3, new ListItem("High", "High"));
+            PriorityLabel.Text = a.getPriority();
+            AssigneeLabel.Text = a.getAssignee();
 
             string status = a.getStatus();
             DropDownList2.Items.Insert(0, new ListItem(status, status));
             DropDownList2.Items.Insert(1, new ListItem("Pending Fix", "Pending Fix"));
-            DropDownList2.Items.Insert(2, new ListItem("Closed (Rejected)", "Closed (Rejected)"));
-            DropDownList2.Items.Insert(3, new ListItem("Closed (Resolved)", "Closed (Resolved)"));
-
-            string assignee = a.getAssignee();
-            DropDownList3.Items.Insert(0, new ListItem(assignee, assignee));
+            DropDownList2.Items.Insert(2, new ListItem("Pending (Resolved)", "Pending (Resolved)"));
 
         }
 
         private void displayComments()
         {
-                DatabaseClass db = new DatabaseClass();
-                MySqlConnection conn = db.getConnection();
-                conn.Open();
+            DatabaseClass db = new DatabaseClass();
+            MySqlConnection conn = db.getConnection();
+            conn.Open();
 
-                MySqlCommand cmd = conn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM CommentDetails where comment_bug_id = @bugid";
-                cmd.Parameters.AddWithValue("@bugid", id);
-                cmd.Connection = conn;
+            MySqlCommand cmd = conn.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "SELECT * FROM CommentDetails where comment_bug_id = @bugid";
+            cmd.Parameters.AddWithValue("@bugid", id);
+            cmd.Connection = conn;
 
-                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
 
 
-                DataTable dt = new DataTable();
-                da.Fill(dt);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
 
-                Repeater1.DataBind();
-                Repeater1.DataSource = dt;
-                Repeater1.DataBind();
+            Repeater1.DataBind();
+            Repeater1.DataSource = dt;
+            Repeater1.DataBind();
 
-                conn.Close();
+            conn.Close();
         }
         protected static string GetText(object dataItem)
         {
@@ -117,9 +85,7 @@ namespace BB6.Triager
 
             MySqlCommand cmd = con.CreateCommand();
             cmd.CommandType = CommandType.Text;
-            cmd.CommandText = "UPDATE BugDetails SET priority = @priority, assignee = @assignee, status = @status WHERE bug_id = @bugid";
-            cmd.Parameters.AddWithValue("@priority", DropDownList1.SelectedValue);
-            cmd.Parameters.AddWithValue("@assignee", DropDownList3.SelectedValue);
+            cmd.CommandText = "UPDATE BugDetails SET status = @status WHERE bug_id = @bugid";
             cmd.Parameters.AddWithValue("@status", DropDownList2.SelectedValue);
             cmd.Parameters.AddWithValue("@bugid", id);
 
@@ -161,6 +127,5 @@ namespace BB6.Triager
 
             displayComments();
         }
-
     }
 }

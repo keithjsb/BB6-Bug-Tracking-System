@@ -51,7 +51,7 @@
                                         <td style="vertical-align:middle"> TODO: CATEGORY </td>
                                         <td style="vertical-align:middle"><%#Eval("assignee")%></td>
                                         <td style="vertical-align:middle"><%#Eval("status")%></td>
-                                        <td style="vertical-align:middle"><asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl='<%#Eval("bug_id", "~/Triager/ViewDetails.aspx?id={0}")%>' CssClass="btn btn-secondary">Details</asp:HyperLink></td>
+                                        <td style="vertical-align:middle"><asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl='<%#Eval("bug_id", "~/BugReporter/ViewDetails.aspx?id={0}")%>' CssClass="btn btn-secondary">Details</asp:HyperLink></td>
                                     </tr>
                                 </ItemTemplate>
                             </asp:Repeater>

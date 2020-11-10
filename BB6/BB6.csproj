@@ -116,11 +116,14 @@
     <Content Include="BugReporter\MyBugs.aspx" />
     <Content Include="BugReporter\SubmitBugs.aspx" />
     <Content Include="BugReporter\Test1.aspx" />
+    <Content Include="BugReporter\ViewDetails.aspx" />
     <Content Include="Developer\Home.aspx" />
     <Content Include="Developer\MyBugs.aspx" />
+    <Content Include="Developer\ViewDetails.aspx" />
     <Content Include="Login.aspx" />
     <Content Include="Reviewer\Home.aspx" />
     <Content Include="Reviewer\MyBugs.aspx" />
+    <Content Include="Reviewer\ViewDetails.aspx" />
     <Content Include="Triager\GenerateReport.aspx" />
     <Content Include="Triager\Home.aspx" />
     <Content Include="Triager\ManageBugs.aspx" />
@@ -148,6 +151,13 @@
     </Compile>
     <Compile Include="BugReporter\Test1.aspx.designer.cs">
       <DependentUpon>Test1.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="BugReporter\ViewDetails.aspx.cs">
+      <DependentUpon>ViewDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BugReporter\ViewDetails.aspx.designer.cs">
+      <DependentUpon>ViewDetails.aspx</DependentUpon>
     </Compile>
     <Compile Include="Class\DatabaseClass.cs" />
     <Compile Include="Class\BugReporterClass.cs" />
@@ -195,6 +205,13 @@
     <Compile Include="Developer\MyBugs.aspx.designer.cs">
       <DependentUpon>MyBugs.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Developer\ViewDetails.aspx.cs">
+      <DependentUpon>ViewDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Developer\ViewDetails.aspx.designer.cs">
+      <DependentUpon>ViewDetails.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -226,6 +243,13 @@
       <DependentUpon>Reviewer.Master</DependentUpon>
     </Compile>
     <Compile Include="Class\TriagerClass.cs" />
+    <Compile Include="Reviewer\ViewDetails.aspx.cs">
+      <DependentUpon>ViewDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reviewer\ViewDetails.aspx.designer.cs">
+      <DependentUpon>ViewDetails.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Triager\GenerateReport.aspx.cs">
       <DependentUpon>GenerateReport.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

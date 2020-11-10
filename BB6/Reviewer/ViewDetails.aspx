@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Triager/Triager.Master" AutoEventWireup="true" CodeBehind="ViewDetails.aspx.cs" Inherits="BB6.Triager.ViewDetails" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Reviewer/Reviewer.Master" AutoEventWireup="true" CodeBehind="ViewDetails.aspx.cs" Inherits="BB6.Reviewer.ViewDetails" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -12,9 +12,8 @@
     <tr><th style="width: 20%">Keywords</th><td><asp:Label ID="KeyLabel" runat="server" Text=""></asp:Label></td></tr>
     <tr><th style="width: 10%">Bug Reporter</th><td><asp:Label ID="ReporterLabel" runat="server" Text=""></asp:Label></td></tr>
     <tr><th style="width: 10%">Date Reported</th><td><asp:Label ID="DateLabel" runat="server" Text=""></asp:Label></td></tr>
-    <tr><th style="width: 8%">Priority</th><td>
-        <asp:DropDownList ID="DropDownList1" runat="server"></asp:DropDownList> </td></tr>
-    <tr><th style="width: 12%">Assignee</th><td><asp:DropDownList ID="DropDownList3" runat="server"></asp:DropDownList></td></tr>
+    <tr><th style="width: 8%">Priority</th><td><asp:Label ID="PriorityLabel" runat="server" Text=""></asp:Label></td></tr>
+    <tr><th style="width: 12%">Assignee</th><td><asp:Label ID="AssigneeLabel" runat="server" Text=""></asp:Label></td></tr>
     <tr><th style="width: 5%">Status</th><td>
         <asp:DropDownList ID="DropDownList2" runat="server"></asp:DropDownList>  </td></tr>
 </table>

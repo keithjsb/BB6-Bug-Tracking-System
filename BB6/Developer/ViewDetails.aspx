@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Triager/Triager.Master" AutoEventWireup="true" CodeBehind="ViewDetails.aspx.cs" Inherits="BB6.Triager.ViewDetails" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Developer/Developer.Master" AutoEventWireup="true" CodeBehind="ViewDetails.aspx.cs" Inherits="BB6.Developer.ViewDetails" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -12,20 +12,19 @@
     <tr><th style="width: 20%">Keywords</th><td><asp:Label ID="KeyLabel" runat="server" Text=""></asp:Label></td></tr>
     <tr><th style="width: 10%">Bug Reporter</th><td><asp:Label ID="ReporterLabel" runat="server" Text=""></asp:Label></td></tr>
     <tr><th style="width: 10%">Date Reported</th><td><asp:Label ID="DateLabel" runat="server" Text=""></asp:Label></td></tr>
-    <tr><th style="width: 8%">Priority</th><td>
-        <asp:DropDownList ID="DropDownList1" runat="server"></asp:DropDownList> </td></tr>
-    <tr><th style="width: 12%">Assignee</th><td><asp:DropDownList ID="DropDownList3" runat="server"></asp:DropDownList></td></tr>
-    <tr><th style="width: 5%">Status</th><td>
-        <asp:DropDownList ID="DropDownList2" runat="server"></asp:DropDownList>  </td></tr>
+    <tr><th style="width: 8%">Priority</th><td><asp:Label ID="PriorityLabel" runat="server" Text=""></asp:Label></td></tr>
+    <tr><th style="width: 12%">Assignee</th><td><asp:Label ID="AssigneeLabel" runat="server" Text=""></asp:Label></td></tr>
+    <tr><th style="width: 5%">Status</th><td><asp:Label ID="StatusLabel" runat="server" Text=""></asp:Label></td></tr>
 </table>
-        <button type="button" runat="server" onserverclick="btnSubmit_Click" id="btnSubmit">Update</button>
+        <button type="button" runat="server" onserverclick="upload_File" id="btnUpload">Upload Fix</button>
+
         <br />
         <asp:Label ID="Label1" runat="server" Text=""></asp:Label>
     <hr/>
     <h3  class = "container-fluid text-left">
         <asp:Label ID="Label2" runat="server" Text="Comments"></asp:Label>
     </h3>
-     <hr/>
+         <hr/>
                 <div class = "container-fluid text-left">
                          <asp:TextBox style="text-align: left; vertical-align: text-top;" ID="commentBox" runat="server" Height="150px" Width="400px" TextMode="MultiLine"></asp:TextBox>
                 <br />
@@ -33,6 +32,7 @@
                     <asp:Label ID="Label3" runat="server" Text=""></asp:Label>
                 </div>
                 <asp:Label ID="Label4" runat="server" Text=""></asp:Label>
+
             <div class = "container-fluid text-left">
                 <table>
                 <asp:Repeater ID="Repeater1" runat="server">
@@ -53,3 +53,4 @@
         </div>
     </div>
 </asp:Content>
+
