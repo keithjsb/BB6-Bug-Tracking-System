@@ -10,13 +10,13 @@ namespace BB6
     public class BugClass
     {
         private int bugID;
-        private string bugReporter;
+        public string bugReporter;
         private string title;
         private string keywords;
         private string description;
         private DateTime dateReported;
         private DateTime dateResolved;
-        private string assignee;
+        public string assignee;
         private string priority;
         private string status;
 
@@ -127,6 +127,48 @@ namespace BB6
             MySqlCommand cmd = conn.CreateCommand();
             cmd.CommandType = CommandType.Text;
             cmd.CommandText = "SELECT * FROM BugDetails";
+            cmd.Connection = conn;
+
+            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            conn.Close();
+
+            return dt;
+        }
+
+        public DataTable getAllBugsForBugReporter()
+        {
+            DatabaseClass db = new DatabaseClass();
+            MySqlConnection conn = db.getConnection();
+            conn.Open();
+
+            MySqlCommand cmd = conn.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "SELECT * FROM BugDetails where bugreporter = @username";
+            cmd.Parameters.AddWithValue("@username", bugReporter);
+            cmd.Connection = conn;
+
+            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            conn.Close();
+
+            return dt;
+        }
+
+        public DataTable getAllBugsForDeveloper()
+        {
+            DatabaseClass db = new DatabaseClass();
+            MySqlConnection conn = db.getConnection();
+            conn.Open();
+
+            MySqlCommand cmd = conn.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "SELECT * FROM BugDetails where assignee = @username";
+            cmd.Parameters.AddWithValue("@username", assignee);
             cmd.Connection = conn;
 
             MySqlDataAdapter da = new MySqlDataAdapter(cmd);

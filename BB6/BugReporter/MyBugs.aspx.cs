@@ -20,24 +20,10 @@ namespace BB6.BugReporter
         {
             string username = Session["loginID"].ToString();
 
-            DatabaseClass db = new DatabaseClass();
-            MySqlConnection conn = db.getConnection();
-            conn.Open();
-
-            MySqlCommand cmd = conn.CreateCommand();
-            cmd.CommandType = CommandType.Text;
-            cmd.CommandText = "SELECT * FROM BugDetails where bugreporter = @username";
-            cmd.Parameters.AddWithValue("@username", username);
-            cmd.Connection = conn;
-
-            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-
-
-            DataTable dt = new DataTable();
-            da.Fill(dt);
-            conn.Close();
-
-            Repeater1.DataSource = dt;
+            BugClass bc = new BugClass();
+            bc.bugReporter = username;
+            
+            Repeater1.DataSource = bc.getAllBugsForBugReporter();
             Repeater1.DataBind();
         }
         protected static string GetText(object dataItem)

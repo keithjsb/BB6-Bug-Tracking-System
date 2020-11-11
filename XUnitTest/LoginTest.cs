@@ -5,10 +5,10 @@ using BB6;
 namespace Testing
 {
     [TestClass]
-    public class LoginTest
+     public class LoginTest
     {
         [TestMethod]
-        public void TestBugReporterLoginBugReporter()
+        public void TestLoginBugReporter()
         {
             //Arrange
             string loginID = "benton";
@@ -25,7 +25,7 @@ namespace Testing
         }
 
         [TestMethod]
-        public void TestBugReporterLoginTriager()
+        public void TestLoginTriager()
         {
             //Arrange
             string loginID = "Jazryll";
@@ -42,7 +42,7 @@ namespace Testing
         }
 
         [TestMethod]
-        public void TestBugReporterLoginReviewer()
+        public void TestLoginReviewer()
         {
             //Arrange
             string loginID = "Kamali";
@@ -59,7 +59,7 @@ namespace Testing
         }
 
         [TestMethod]
-        public void TestBugReporterLoginDeveloper()
+        public void TestLoginDeveloper()
         {
             //Arrange
             string loginID = "Keith";
@@ -70,9 +70,81 @@ namespace Testing
 
             //Act
 
-
             //Assert (https://docs.microsoft.com/en-us/dotnet/api/microsoft.visualstudio.testtools.unittesting.assert.istrue?view=mstest-net-1.3.2) Assert functions
             Assert.IsTrue(keithAccount.validateUser()); // Returns a Bool if the 3 details exists in the database
         }
     }
+
+   /* [TestClass]
+    public class CaseSensitivityLoginTest
+    {
+        [TestMethod]
+        public void CSTestLoginBugReporter()
+        {
+            //Arrange
+            string loginID = "benton";
+            string password = "BENTON123";
+            string userType = "BR";
+
+            UserClass CSbenAccount = new UserClass(loginID, password, userType);
+
+            //Act
+
+
+            //Assert (https://docs.microsoft.com/en-us/dotnet/api/microsoft.visualstudio.testtools.unittesting.assert.istrue?view=mstest-net-1.3.2) Assert functions
+            Assert.IsTrue(CSbenAccount.validateUser()); // Returns a Bool if the 3 details exists in the database
+        }
+
+        
+        [TestMethod]
+        public void CSTestLoginTriager()
+        {
+            //Arrange
+            string loginID = "Jazryll";
+            string password = "JAZ123";
+            string userType = "T";
+
+            UserClass CSjazAccount = new UserClass(loginID, password, userType);
+
+            //Act
+
+
+            //Assert (https://docs.microsoft.com/en-us/dotnet/api/microsoft.visualstudio.testtools.unittesting.assert.istrue?view=mstest-net-1.3.2) Assert functions
+            Assert.IsFalse(CSjazAccount.validateUser()); // Returns a Bool if the 3 details exists in the database
+        }
+
+        [TestMethod]
+        public void CSTestLoginReviewer()
+        {
+            //Arrange
+            string loginID = "Kamali";
+            string password = "KAMALI123";
+            string userType = "R";
+
+            UserClass CSkamaliAccount = new UserClass(loginID, password, userType);
+
+            //Act
+
+
+            //Assert (https://docs.microsoft.com/en-us/dotnet/api/microsoft.visualstudio.testtools.unittesting.assert.istrue?view=mstest-net-1.3.2) Assert functions
+            Assert.IsFalse(CSkamaliAccount.validateUser()); // Returns a Bool if the 3 details exists in the database
+        }
+
+        [TestMethod]
+        public void CSTestLoginDeveloper()
+        {
+            //Arrange
+            string loginID = "Keith";
+            string password = "KEITH123";
+            string userType = "D";
+
+            UserClass CSkeithAccount = new UserClass(loginID, password, userType);
+
+            //Act
+
+
+            //Assert (https://docs.microsoft.com/en-us/dotnet/api/microsoft.visualstudio.testtools.unittesting.assert.istrue?view=mstest-net-1.3.2) Assert functions
+            Assert.IsFalse(CSkeithAccount.validateUser()); // Returns a Bool if the 3 details exists in the database
+        }
+    }*/
 }
