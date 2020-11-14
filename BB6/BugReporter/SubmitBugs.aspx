@@ -23,6 +23,10 @@
                                     <asp:TextBox ID="txtKeywords" runat="server" CssClass="form-control col-9"></asp:TextBox>
                                 </div>
                                 <div class="form-group row">
+                                    <label class="col-form-label col-3" for="inputDefault">Category</label>
+                                    <asp:DropDownList ID="category" runat="server"></asp:DropDownList>
+                                </div>
+                                <div class="form-group row">
                                     <label class="col-form-label col-3" for="inputDefault">Description</label>
                                     <asp:TextBox ID="txtDescription" runat="server" CssClass="form-control col-9" TextMode="MultiLine" Rows="5"></asp:TextBox>
                                 </div>

@@ -48,7 +48,7 @@
                                             <small class="m-0">#<%#Eval("bug_id")%> submitted on <%#Eval("date_reported")%> by <%#Eval("bugreporter")%></small>
                                         </td>
                                         <td style="vertical-align:middle"><%#Eval("keywords")%></td>
-                                        <td style="vertical-align:middle"> TODO: CATEGORY </td>
+                                        <td style="vertical-align:middle"><%#Eval("category")%></td>
                                         <td style="vertical-align:middle"><%#Eval("assignee")%></td>
                                         <td style="vertical-align:middle"><%#Eval("status")%></td>
                                         <td style="vertical-align:middle"><asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl='<%#Eval("bug_id", "~/BugReporter/ViewDetails.aspx?id={0}")%>' CssClass="btn btn-secondary">Details</asp:HyperLink></td>

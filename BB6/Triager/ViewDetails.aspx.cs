@@ -111,25 +111,29 @@ namespace BB6.Triager
 
         protected void btnSubmit_Click(object sender, EventArgs e)
         {
+            DateTime date = DateTime.Now;
 
             con = db.getConnection();
             con.Open();
 
             MySqlCommand cmd = con.CreateCommand();
             cmd.CommandType = CommandType.Text;
-            cmd.CommandText = "UPDATE BugDetails SET priority = @priority, assignee = @assignee, status = @status WHERE bug_id = @bugid";
+            if (DropDownList2.SelectedValue == "Closed (Resolved)")
+                cmd.CommandText = "UPDATE BugDetails SET priority = @priority, assignee = @assignee, status = @status, date_resolved = @date_resolved WHERE bug_id = @bugid";
+            else
+                cmd.CommandText = "UPDATE BugDetails SET priority = @priority, assignee = @assignee, status = @status WHERE bug_id = @bugid";
             cmd.Parameters.AddWithValue("@priority", DropDownList1.SelectedValue);
             cmd.Parameters.AddWithValue("@assignee", DropDownList3.SelectedValue);
             cmd.Parameters.AddWithValue("@status", DropDownList2.SelectedValue);
+            cmd.Parameters.AddWithValue("@date_resolved", date);
             cmd.Parameters.AddWithValue("@bugid", id);
-
             cmd.Connection = con;
-
-            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-
-            DataTable dt = new DataTable();
-            da.Fill(dt);
+            cmd.ExecuteNonQuery();
             con.Close();
+
+            //MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+            //DataTable dt = new DataTable();
+            //da.Fill(dt);
 
             Label1.Text = "Bug Report Updated ";
 
@@ -140,7 +144,6 @@ namespace BB6.Triager
             string comment = commentBox.Text;
             string comment_username = Session["loginID"].ToString();
             DateTime date = DateTime.Now;
-
             DatabaseClass db = new DatabaseClass();
             MySqlConnection conn = db.getConnection();
             conn.Open();

@@ -13,7 +13,11 @@ namespace BB6.BugReporter
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            category.Items.Insert(0, new ListItem("UI", "UI"));
+            category.Items.Insert(1, new ListItem("Server", "Server"));
+            category.Items.Insert(2, new ListItem("Error Handling", "Error Handling"));
+            category.Items.Insert(3, new ListItem("Syntactics", "Syntactics"));
+            category.Items.Insert(4, new ListItem("Others", "Others"));
         }
         private int addBug()
         {
@@ -29,12 +33,13 @@ namespace BB6.BugReporter
 
             MySqlCommand cmd = conn.CreateCommand();
             cmd.CommandType = CommandType.Text;
-            cmd.CommandText = "INSERT INTO BugDetails (bugreporter, title, keywords, description, date_reported, status) VALUES(@bugreporter, @title, @keywords, @description, @date_reported, @status)";
+            cmd.CommandText = "INSERT INTO BugDetails (bugreporter, title, keywords, category, description, date_reported, status) VALUES(@bugreporter, @title, @keywords, @category, @description, @date_reported, @status)";
             cmd.Parameters.AddWithValue("@bugreporter", bugReporter);
             cmd.Parameters.AddWithValue("@title", title);
             cmd.Parameters.AddWithValue("@keywords", key);
             cmd.Parameters.AddWithValue("@description", desc);
             cmd.Parameters.AddWithValue("@date_reported", date);
+            cmd.Parameters.AddWithValue("@category", category.SelectedValue);
             cmd.Parameters.AddWithValue("@status", "Open");
             cmd.Connection = conn;
             cmd.ExecuteNonQuery();
