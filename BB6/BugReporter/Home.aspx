@@ -12,7 +12,7 @@
             </Triggers>
             <ContentTemplate>
                 <div class="row justify-content-end mt-3">
-                     <div class="form-group form-inline">
+                    <div class="form-group form-inline">
                          <asp:Label ID="lblError" runat="server" CssClass="form-label text-danger mr-2"></asp:Label>
                          <div class="input-group">
                              <asp:DropDownList ID="ddlSearchType" runat="server" CssClass="form-control">
@@ -23,8 +23,8 @@
                              </asp:DropDownList>
                              <asp:TextBox ID="txtSearch" cssclass="form-control" placeholder="Search..." runat="server"></asp:TextBox>
                              <div class="input-group-append">
-                                 <asp:Button ID="btnSearch" runat="server" Text="Search" CssClass="btn btn-outline-secondary" OnClick="btnSearch_Click"/>
-                                 <asp:Button ID="btnClear" runat="server" Text="Clear" CssClass="btn btn-outline-secondary" OnClick="btnClear_Click"/>
+                                 <asp:Button ID="btnSearch" runat="server" Text="Search" CssClass="btn btn-outline-secondary" OnClick="searchBugs"/>
+                                 <asp:Button ID="btnClear" runat="server" Text="Clear" CssClass="btn btn-danger" OnClick="btnClear_Click"/>
                              </div>
                          </div>
                     </div>
@@ -40,17 +40,17 @@
                                 <th style="width: 15%">Status</th>
                                 <th style="width: 5%">Action</th>
                             </tr>
-                            <asp:Repeater runat="server" ID="Repeater1">
+                            <asp:Repeater runat="server" ID="Repeater1" OnItemDataBound="Repeater1_ItemDataBound">
                                 <ItemTemplate>
                                     <tr>
                                         <td>
                                             <p class="m-0"><%#Eval("title")%></p>
                                             <small class="m-0">#<%#Eval("bug_id")%> submitted on <%#Eval("date_reported")%> by <%#Eval("bugreporter")%></small>
                                         </td>
-                                        <td style="vertical-align:middle"><%#Eval("keywords")%></td>
+                                        <td style="vertical-align:middle" ><asp:Label ID="Label1" runat="server" Text='<%#Eval("keywords")%>' cssclass="border bg-secondary form-rounded text-white"></asp:Label></td>
                                         <td style="vertical-align:middle"><%#Eval("category")%></td>
-                                        <td style="vertical-align:middle"><%#Eval("assignee")%></td>
-                                        <td style="vertical-align:middle"><%#Eval("status")%></td>
+                                        <td style="vertical-align:middle"><asp:Label ID="lblAssignee" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "assignee") %>'></asp:Label></td>
+                                        <td style="vertical-align:middle"><asp:Label ID="lblStatus" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "status") %>'></asp:Label></td>
                                         <td style="vertical-align:middle"><asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl='<%#Eval("bug_id", "~/BugReporter/ViewDetails.aspx?id={0}")%>' CssClass="btn btn-secondary">Details</asp:HyperLink></td>
                                     </tr>
                                 </ItemTemplate>

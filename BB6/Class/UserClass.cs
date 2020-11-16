@@ -9,16 +9,9 @@ namespace BB6
 {
     public class UserClass
     {
-        private string username { get; set; }
-        private string password { get; set; }
-        private string type { get; set; }
-
-        public UserClass(String username, String password, String type)
-        {
-            this.username = username;
-            this.password = password;
-            this.type = type;
-        }
+        public string username { get; set; }
+        public string password { get; set; }
+        public string type { get; set; }
         public bool validateUser()
         {
             bool status = false;
@@ -28,9 +21,9 @@ namespace BB6
             MySqlCommand cmd = conn.CreateCommand();
             cmd.CommandType = CommandType.Text;
             cmd.CommandText = "SELECT * FROM UserDetails WHERE username=@username AND password=@password AND type=@type";
-            cmd.Parameters.AddWithValue("@username", this.username);
-            cmd.Parameters.AddWithValue("@password", this.password);
-            cmd.Parameters.AddWithValue("@type", this.type);
+            cmd.Parameters.AddWithValue("@username", username);
+            cmd.Parameters.AddWithValue("@password", password);
+            cmd.Parameters.AddWithValue("@type", type);
 
             MySqlDataReader reader = cmd.ExecuteReader();
             if (reader.HasRows)
@@ -38,6 +31,25 @@ namespace BB6
             
             conn.Close();
             return status;
+        }
+        public DataTable getDevelopers()
+        {
+            DatabaseClass db = new DatabaseClass();
+            MySqlConnection conn = db.getConnection();
+            conn.Open();
+
+            MySqlCommand cmd = conn.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "SELECT * FROM UserDetails WHERE type = 'D'";
+            cmd.Connection = conn;
+
+            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            conn.Close();
+
+            return dt;
         }
     }
 }

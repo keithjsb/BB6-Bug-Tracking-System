@@ -111,11 +111,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Admin.aspx" />
     <Content Include="BugReporter\Home.aspx" />
     <Content Include="BugReporter\MyBugs.aspx" />
     <Content Include="BugReporter\SubmitBugs.aspx" />
-    <Content Include="BugReporter\Test1.aspx" />
     <Content Include="BugReporter\ViewDetails.aspx" />
     <Content Include="Developer\Home.aspx" />
     <Content Include="Developer\MyBugs.aspx" />
@@ -131,26 +129,12 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Admin.aspx.cs">
-      <DependentUpon>Admin.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin.aspx.designer.cs">
-      <DependentUpon>Admin.aspx</DependentUpon>
-    </Compile>
     <Compile Include="BugReporter\MyBugs.aspx.cs">
       <DependentUpon>MyBugs.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BugReporter\MyBugs.aspx.designer.cs">
       <DependentUpon>MyBugs.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="BugReporter\Test1.aspx.cs">
-      <DependentUpon>Test1.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="BugReporter\Test1.aspx.designer.cs">
-      <DependentUpon>Test1.aspx</DependentUpon>
     </Compile>
     <Compile Include="BugReporter\ViewDetails.aspx.cs">
       <DependentUpon>ViewDetails.aspx</DependentUpon>
@@ -160,7 +144,6 @@
       <DependentUpon>ViewDetails.aspx</DependentUpon>
     </Compile>
     <Compile Include="Class\DatabaseClass.cs" />
-    <Compile Include="Class\BugReporterClass.cs" />
     <Compile Include="Class\BugClass.cs" />
     <Compile Include="BugReporter\BugReporter.Master.cs">
       <DependentUpon>BugReporter.Master</DependentUpon>
@@ -176,7 +159,6 @@
     <Compile Include="BugReporter\Home.aspx.designer.cs">
       <DependentUpon>Home.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Class\DeveloperClass.cs" />
     <Compile Include="BugReporter\SubmitBugs.aspx.cs">
       <DependentUpon>SubmitBugs.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -184,6 +166,7 @@
     <Compile Include="BugReporter\SubmitBugs.aspx.designer.cs">
       <DependentUpon>SubmitBugs.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Class\CommentClass.cs" />
     <Compile Include="Developer\Developer.Master.cs">
       <DependentUpon>Developer.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -220,7 +203,6 @@
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Class\ReviewerClass.cs" />
     <Compile Include="Reviewer\Home.aspx.cs">
       <DependentUpon>Home.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -242,7 +224,6 @@
     <Compile Include="Reviewer\Reviewer.Master.designer.cs">
       <DependentUpon>Reviewer.Master</DependentUpon>
     </Compile>
-    <Compile Include="Class\TriagerClass.cs" />
     <Compile Include="Reviewer\ViewDetails.aspx.cs">
       <DependentUpon>ViewDetails.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

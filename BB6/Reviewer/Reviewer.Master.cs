@@ -16,9 +16,15 @@ namespace BB6.Reviewer
         private void validateLogin()
         {
             if (Session["loginID"] == null)
-                lblID.InnerText = "not logged in";
+                Response.Redirect("../Login.aspx");
             else
                 lblID.InnerText = Session["loginID"].ToString();
+        }
+        protected void logOut(object sender, EventArgs e)
+        {
+            Session.Clear();
+            Session.Abandon();
+            Response.Redirect("../Login.aspx");
         }
     }
 }

@@ -17,37 +17,14 @@ namespace BB6.BugReporter
         }
         private void displayBugs()
         {
-            DatabaseClass db = new DatabaseClass();
-            MySqlConnection conn = db.getConnection();
-            conn.Open();
+            BugClass bc = new BugClass();
+            DataTable bugDt = bc.getAllBugs();
 
-            MySqlCommand cmd = conn.CreateCommand();
-            cmd.CommandType = CommandType.Text;
-            cmd.CommandText = "SELECT * FROM BugDetails";
-            cmd.Connection = conn;
-
-            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-
-
-            DataTable dt = new DataTable();
-            da.Fill(dt);
-            conn.Close();
-
-            Repeater1.DataSource = dt;
+            Repeater1.DataSource = bugDt;
             Repeater1.DataBind();
         }
-        protected static string GetText(object dataItem)
-        {
-            // this method is for testing. nothing to see here
-            // <td><%#GetText(Container.DataItem)%></td>
-            string type = Convert.ToString(DataBinder.Eval(dataItem, "type"));
-            string sn = Convert.ToString(DataBinder.Eval(dataItem, "sn"));
-            if (sn == "3")
-                return "Bug Reporter";
-            else
-                return "Not Bug Reporter";
-        }
-        protected void btnSearch_Click(object sender, EventArgs e)
+
+        protected void searchBugs(object sender, EventArgs e)
         {
             BugClass bc = new BugClass();
             if (ddlSearchType.SelectedValue == "Assignee")
@@ -81,6 +58,28 @@ namespace BB6.BugReporter
             txtSearch.Text = "";
             ddlSearchType.SelectedValue = "-";
             lblError.Text = "";
+        }
+
+        protected void Repeater1_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            string status = Convert.ToString(DataBinder.Eval(e.Item.DataItem, "status"));
+
+            if (status == "New")
+                ((Label)e.Item.FindControl("lblStatus")).CssClass = "border form-rounded text-white status-green";
+            else if(status == "Assigned")
+                ((Label)e.Item.FindControl("lblStatus")).CssClass = "border form-rounded text-white status-purple";
+            else if (status == "Fixed")
+                ((Label)e.Item.FindControl("lblStatus")).CssClass = "border form-rounded text-white status-orange";
+            else if (status == "Verified")
+                ((Label)e.Item.FindControl("lblStatus")).CssClass = "border form-rounded text-white status-green";
+            else if (status == "Closed" || status == "Rejected")
+                ((Label)e.Item.FindControl("lblStatus")).CssClass = "border form-rounded text-white status-red";
+            else
+                ((Label)e.Item.FindControl("lblStatus")).CssClass = "border form-rounded bg-white";
+
+            string assignee = Convert.ToString(DataBinder.Eval(e.Item.DataItem, "assignee"));
+            if (string.IsNullOrWhiteSpace(assignee))
+                ((Label)e.Item.FindControl("lblAssignee")).Text = "-";
         }
     }
 }

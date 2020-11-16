@@ -27,105 +27,109 @@ namespace BB6.Reviewer
             id = Request.QueryString["id"];
             BugClass a = new BugClass(id);
 
-            Idlabel.Text = id.ToString();
-            TitleLabel.Text = a.getTitle();
-            KeyLabel.Text = a.getKeywords();
-            ReporterLabel.Text = a.getBugReporter();
-            DateLabel.Text = a.getDateReported().ToString();
-            PriorityLabel.Text = a.getPriority();
-            AssigneeLabel.Text = a.getAssignee();
+            IdLabel.InnerText = "#" + id.ToString();
+            CategoryLabel.Text = "[" + a.category + "]";
+            TitleLabel.Text = a.title;
+            KeyLabel.Text = a.keywords;
+            ReporterLabel.Text = "<u>Reported by: " + a.bugReporter + "</u>";
+            DateLabel.Text = a.dateReported.ToString();
+            if (a.dateModified == a.dateReported)
+                DateModifiedLabel.Text = "-";
+            else
+                DateModifiedLabel.Text = a.dateModified.ToString();
+            if (a.dateResolved < a.dateReported)
+                DateResolvedLabel.Text = "-";
+            else
+                DateResolvedLabel.Text = a.dateResolved.ToString();
+            DescriptionLabel.Text = a.description;
+            PriorityLabel.Text = a.priority;
+            AssigneeLabel.Text = a.assignee;
+            StatusLabel.Text = a.status;
+            changeStatusColor(a.status);
 
-            string status = a.getStatus();
-            DropDownList2.Items.Insert(0, new ListItem(status, status));
-            DropDownList2.Items.Insert(1, new ListItem("Pending Fix", "Pending Fix"));
-            DropDownList2.Items.Insert(2, new ListItem("Pending (Resolved)", "Pending (Resolved)"));
-
+            //fake uploaded fix
+            if (a.status == "Fixed")
+            {
+                btnSubmit.Disabled = false;
+                aFix.InnerText = id + "_fix.exe";
+                aFix.HRef = "#aFix";
+                aFix.Attributes.Add("onClientClick", "fix()");
+            }
+            else if(a.status == "Closed")
+            {
+                btnSubmit.Disabled = true;
+                aFix.InnerText = id + "_fix.exe";
+                aFix.HRef = "#aFix";
+                aFix.Attributes.Add("onClientClick", "fix()");
+            }
+            else
+            {
+                btnSubmit.Disabled = true;
+                aFix.InnerText = " none";
+            }
         }
 
         private void displayComments()
         {
-            DatabaseClass db = new DatabaseClass();
-            MySqlConnection conn = db.getConnection();
-            conn.Open();
+            CommentClass cc = new CommentClass();
+            cc.bugID = Int32.Parse(id);
 
-            MySqlCommand cmd = conn.CreateCommand();
-            cmd.CommandType = CommandType.Text;
-            cmd.CommandText = "SELECT * FROM CommentDetails where comment_bug_id = @bugid";
-            cmd.Parameters.AddWithValue("@bugid", id);
-            cmd.Connection = conn;
-
-            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-
-
-            DataTable dt = new DataTable();
-            da.Fill(dt);
-
-            Repeater1.DataBind();
-            Repeater1.DataSource = dt;
+            Repeater1.DataSource = cc.getCommentsByID();
             Repeater1.DataBind();
 
-            conn.Close();
-        }
-        protected static string GetText(object dataItem)
-        {
-            // <td><%#GetText(Container.DataItem)%></td>
-            string type = Convert.ToString(DataBinder.Eval(dataItem, "type"));
-            string sn = Convert.ToString(DataBinder.Eval(dataItem, "sn"));
-            if (sn == "3")
-                return "Developer";
-            else
-                return "Not Developer";
+            CommentCountLabel.Text = "&bull; " + cc.countCommentsByID() + " comments";
         }
 
         protected void btnSubmit_Click(object sender, EventArgs e)
         {
 
-            con = db.getConnection();
-            con.Open();
+            if(Page.IsValid)
+            {
+                BugClass bc = new BugClass();
+                bc.status = ddlReview.SelectedValue;
+                bc.bugID = Int32.Parse(id);
 
-            MySqlCommand cmd = con.CreateCommand();
-            cmd.CommandType = CommandType.Text;
-            cmd.CommandText = "UPDATE BugDetails SET status = @status WHERE bug_id = @bugid";
-            cmd.Parameters.AddWithValue("@status", DropDownList2.SelectedValue);
-            cmd.Parameters.AddWithValue("@bugid", id);
+                if(bc.reviewFix() == 0)
+                    Label3.Text = "Bug Report Updated.";
+                else
+                    Label3.Text = "Error in updating bug report.";
 
-            cmd.Connection = con;
-
-            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-
-            DataTable dt = new DataTable();
-            da.Fill(dt);
-            con.Close();
-
-            Label1.Text = "Bug Report Updated ";
-
+                displayBugs();
+            }
         }
 
         protected void btnComment_Click(object sender, EventArgs e)
         {
-            string comment = commentBox.Text;
-            string comment_username = Session["loginID"].ToString();
-            DateTime date = DateTime.Now;
-
-            DatabaseClass db = new DatabaseClass();
-            MySqlConnection conn = db.getConnection();
-            conn.Open();
-
-            MySqlCommand cmd = conn.CreateCommand();
-            cmd.CommandType = CommandType.Text;
-            cmd.CommandText = "INSERT INTO CommentDetails (comment_bug_id,comment_username,comment_date,comment_text) VALUES(@bugid,@comment_username,@comment_date,@comment)";
-            cmd.Parameters.AddWithValue("@bugid", id);
-            cmd.Parameters.AddWithValue("@comment_username", comment_username);
-            cmd.Parameters.AddWithValue("@comment", comment);
-            cmd.Parameters.AddWithValue("@comment_date", date);
-            cmd.Connection = conn;
-            cmd.ExecuteNonQuery();
-            conn.Close();
-
-            Label3.Text = "Comment Added.";
-            commentBox.Text = "";
-
-            displayComments();
+            if (Page.IsValid)
+            {
+                CommentClass cc = new CommentClass();
+                cc.bugID = Int32.Parse(id);
+                cc.commentDescription = commentBox.Text;
+                cc.commentUsername = Session["loginID"].ToString();
+                if (cc.addComment() == 0)
+                {
+                    Label3.Text = "Comment Added.";
+                    commentBox.Text = "";
+                    displayComments();
+                }
+                else
+                    Label3.Text = "Error submitting your comment. Submit a bug report about this issue.";
+            }
+        }
+        private void changeStatusColor(string status)
+        {
+            if (status == "New")
+                StatusLabel.CssClass = "p-1 text-white status-green";
+            else if (status == "Assigned")
+                StatusLabel.CssClass = "p-1 text-white status-purple";
+            else if (status == "Fixed")
+                StatusLabel.CssClass = "p-1 text-white status-orange";
+            else if (status == "Verified")
+                StatusLabel.CssClass = "p-1 text-white status-green";
+            else if (status == "Closed" || status == "Rejected")
+                StatusLabel.CssClass = "p-1 text-white status-red";
+            else
+                StatusLabel.CssClass = "p-1 bg-white";
         }
     }
 }

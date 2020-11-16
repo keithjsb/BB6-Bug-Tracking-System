@@ -1,56 +1,105 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Developer/Developer.Master" AutoEventWireup="true" CodeBehind="ViewDetails.aspx.cs" Inherits="BB6.Developer.ViewDetails" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <style>
+        .container-fluid{
+            max-width: 60%;
+        }
+    </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="container-fluid mt-2">
-        <h3 class="row border-bottom"> BB6 Bug Tracking System </h3>
-
-            <div class = "container-fluid text-center">
-<table class="table table-bordered table-sm">
-    <tr><th style="width: 5%">Bug ID</th><td><asp:Label ID="Idlabel" runat="server" Text=""></asp:Label></td></tr>
-    <tr><th style="width: 25%">Title</th><td><asp:Label ID="TitleLabel" runat="server" Text=""></asp:Label></td></tr>
-    <tr><th style="width: 20%">Keywords</th><td><asp:Label ID="KeyLabel" runat="server" Text=""></asp:Label></td></tr>
-    <tr><th style="width: 10%">Bug Reporter</th><td><asp:Label ID="ReporterLabel" runat="server" Text=""></asp:Label></td></tr>
-    <tr><th style="width: 10%">Date Reported</th><td><asp:Label ID="DateLabel" runat="server" Text=""></asp:Label></td></tr>
-    <tr><th style="width: 8%">Priority</th><td><asp:Label ID="PriorityLabel" runat="server" Text=""></asp:Label></td></tr>
-    <tr><th style="width: 12%">Assignee</th><td><asp:Label ID="AssigneeLabel" runat="server" Text=""></asp:Label></td></tr>
-    <tr><th style="width: 5%">Status</th><td><asp:Label ID="StatusLabel" runat="server" Text=""></asp:Label></td></tr>
-</table>
-        <button type="button" runat="server" onserverclick="upload_File" id="btnUpload">Upload Fix</button>
-
-        <br />
-        <asp:Label ID="Label1" runat="server" Text=""></asp:Label>
-    <hr/>
-    <h3  class = "container-fluid text-left">
-        <asp:Label ID="Label2" runat="server" Text="Comments"></asp:Label>
-    </h3>
-         <hr/>
-                <div class = "container-fluid text-left">
-                         <asp:TextBox style="text-align: left; vertical-align: text-top;" ID="commentBox" runat="server" Height="150px" Width="400px" TextMode="MultiLine"></asp:TextBox>
-                <br />
-                <button ID="commentButton" runat="server" onserverclick="btnComment_Click">Add Comment</button>
-                    <asp:Label ID="Label3" runat="server" Text=""></asp:Label>
+        <div class="row mt-3">
+            <h3 class="m-0"><asp:Label ID="CategoryLabel" runat="server" Text=""></asp:Label> - <asp:Label ID="TitleLabel" runat="server" Text=""></asp:Label> <small id="IdLabel" runat="server" class="text-muted"></small></h3>
+        </div>
+        <div class="row mt-3">
+            <asp:Label ID="StatusLabel" runat="server"></asp:Label><asp:Label ID="ReporterLabel" runat="server" CssClass="ml-2 mr-2"></asp:Label><asp:Label ID="CommentCountLabel" runat="server" Text="Label"></asp:Label>
+            <hr />
+        </div>
+        <div class="row mt-3">
+            <div class="row col-12">
+                <div class="col-12 m-0">
+                    <div class="card">
+                    <div class="card-header font-weight-bold">Details</div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="mb-1">
+                                        <label class="font-weight-bold">Description</label><br />
+                                        <asp:TextBox ID="DescriptionLabel" runat="server" ReadOnly="true" TextMode="MultiLine" Rows="10" CssClass="form-control bg-transparent"></asp:TextBox>
+                                        <div class="d-flex justify-content-between mt-2">
+                                            <div class="form-group form-inline">
+                                                <label class="font-weight-bold mr-1">Uploaded fix: </label><a runat="server" id="aFix" onclick="fix()"></a>
+                                            </div>
+                                            <div class="form-group form-inline">
+                                                <asp:Label ID="Label1" runat="server" CssClass="col-form-label"></asp:Label>
+                                            <button type="button" runat="server" onserverclick="upload_File" id="btnUpload" class="btn btn-success">Upload Fix</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="mb-1">
+                                        <label class="font-weight-bold">Assignees</label><br />
+                                        <asp:Label ID="AssigneeLabel" runat="server"></asp:Label>
+                                    </div>
+                                    <div class="mb-1 border-top">
+                                        <label class="font-weight-bold">Priority</label><br />
+                                        <asp:Label ID="PriorityLabel" runat="server"></asp:Label>
+                                    </div>
+                                    <div class="mb-1 border-top">
+                                        <label class="font-weight-bold">Keywords</label><br />
+                                        <asp:Label ID="KeyLabel" runat="server"></asp:Label>
+                                    </div>
+                                    <div class="mb-1 border-top">
+                                        <label class="font-weight-bold">Date Reported</label><br />
+                                        <asp:Label ID="DateLabel" runat="server"></asp:Label>
+                                    </div>
+                                    <div class="mb-1 border-top">
+                                        <label class="font-weight-bold">Date Modified</label><br />
+                                        <asp:Label ID="DateModifiedLabel" runat="server"></asp:Label>
+                                    </div>
+                                    <div class="mb-1">
+                                        <label class="font-weight-bold">Date Resolved</label><br />
+                                        <asp:Label ID="DateResolvedLabel" runat="server"></asp:Label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <asp:Label ID="Label4" runat="server" Text=""></asp:Label>
-
-            <div class = "container-fluid text-left">
-                <table>
-                <asp:Repeater ID="Repeater1" runat="server">
-                    <ItemTemplate>
-                        <tr>
-                             <td style="text-align: left;"><%#Eval("comment_username")%>
-                             <small class="m-0">posted on <%#Eval("comment_date")%></small>
-                             </td>
-                        </tr>
-                        <tr style="border-style: solid; border-width: thin">
-                             <td style="width: 400px; height: 150px; overflow:scroll; text-align: left; vertical-align: text-top;" ><%#Eval("comment_text")%></td>
-                        </tr>
-                    </ItemTemplate>
-                </asp:Repeater>
-                </table>
+                <div class="col-12 m-0">
+                    <div class="card mt-4">
+                        <div class="card-header font-weight-bold">Leave a comment</div>
+                        <div class="card-body">
+                            <asp:TextBox ID="commentBox" runat="server" TextMode="MultiLine" Rows="3" CssClass="form-control"></asp:TextBox>
+                            <div class="d-flex justify-content-end mt-2">
+                                <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="*You can't leave an empty comment!" ForeColor="Red" ControlToValidate="commentBox" ValidationGroup="commentsGroup"></asp:RequiredFieldValidator>
+                                <asp:Label ID="Label3" runat="server" CssClass="col-form-label"></asp:Label>
+                                <asp:Button ID="commentButton" runat="server" Text="Comment" CssClass="btn btn-sm btn-success ml-2" OnClick="btnComment_Click"  ValidationGroup="commentsGroup"/>
+                            </div>
+                        </div>
+                    </div>
+                    <asp:Repeater ID="Repeater1" runat="server">
+                        <ItemTemplate>
+                            <div class="card mt-2">
+                                <div class="card-header"><label class="font-weight-bold"><%#Eval("comment_username")%></label> commented on <%#Eval("comment_date")%></div>
+                                <div class="card-body">
+                                    <p>
+                                        <%#Eval("comment_text")%>
+                                    </p>
+                                </div>
+                            </div>
+                        </ItemTemplate>
+                    </asp:Repeater>
+                </div>
             </div>
-
         </div>
     </div>
+    <script>
+        function fix() {
+            if (confirm("Download this fix?"))
+                alert("Fix downloaded.");
+        }
+    </script>
 </asp:Content>
 

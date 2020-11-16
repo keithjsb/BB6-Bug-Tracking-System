@@ -15,13 +15,13 @@ namespace BB6.Developer
     {
 
         /// <summary>
-        /// Idlabel control.
+        /// CategoryLabel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Idlabel;
+        protected global::System.Web.UI.WebControls.Label CategoryLabel;
 
         /// <summary>
         /// TitleLabel control.
@@ -33,49 +33,13 @@ namespace BB6.Developer
         protected global::System.Web.UI.WebControls.Label TitleLabel;
 
         /// <summary>
-        /// KeyLabel control.
+        /// IdLabel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label KeyLabel;
-
-        /// <summary>
-        /// ReporterLabel control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label ReporterLabel;
-
-        /// <summary>
-        /// DateLabel control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label DateLabel;
-
-        /// <summary>
-        /// PriorityLabel control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label PriorityLabel;
-
-        /// <summary>
-        /// AssigneeLabel control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label AssigneeLabel;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl IdLabel;
 
         /// <summary>
         /// StatusLabel control.
@@ -87,13 +51,40 @@ namespace BB6.Developer
         protected global::System.Web.UI.WebControls.Label StatusLabel;
 
         /// <summary>
-        /// btnUpload control.
+        /// ReporterLabel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton btnUpload;
+        protected global::System.Web.UI.WebControls.Label ReporterLabel;
+
+        /// <summary>
+        /// CommentCountLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label CommentCountLabel;
+
+        /// <summary>
+        /// DescriptionLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox DescriptionLabel;
+
+        /// <summary>
+        /// aFix control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor aFix;
 
         /// <summary>
         /// Label1 control.
@@ -105,13 +96,67 @@ namespace BB6.Developer
         protected global::System.Web.UI.WebControls.Label Label1;
 
         /// <summary>
-        /// Label2 control.
+        /// btnUpload control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label2;
+        protected global::System.Web.UI.HtmlControls.HtmlButton btnUpload;
+
+        /// <summary>
+        /// AssigneeLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label AssigneeLabel;
+
+        /// <summary>
+        /// PriorityLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label PriorityLabel;
+
+        /// <summary>
+        /// KeyLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label KeyLabel;
+
+        /// <summary>
+        /// DateLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label DateLabel;
+
+        /// <summary>
+        /// DateModifiedLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label DateModifiedLabel;
+
+        /// <summary>
+        /// DateResolvedLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label DateResolvedLabel;
 
         /// <summary>
         /// commentBox control.
@@ -123,13 +168,13 @@ namespace BB6.Developer
         protected global::System.Web.UI.WebControls.TextBox commentBox;
 
         /// <summary>
-        /// commentButton control.
+        /// RequiredFieldValidator1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton commentButton;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
 
         /// <summary>
         /// Label3 control.
@@ -141,13 +186,13 @@ namespace BB6.Developer
         protected global::System.Web.UI.WebControls.Label Label3;
 
         /// <summary>
-        /// Label4 control.
+        /// commentButton control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label4;
+        protected global::System.Web.UI.WebControls.Button commentButton;
 
         /// <summary>
         /// Repeater1 control.

@@ -9,78 +9,18 @@ namespace BB6
 {
     public class BugClass
     {
-        private int bugID;
-        private string bugReporter;
-        private string title;
-        private string keywords;
-        private string description;
-        private DateTime dateReported;
-        private DateTime dateResolved;
-        private string assignee;
-        private string priority;
-        private string status;
-
-        private int commentID;
-        private string commentDescription;
-        private DateTime commentTimestamp;
-        private string commenter;
-
-        public int getBugID()
-        {
-            return this.bugID;
-        }
-        public string getBugReporter()
-        {
-            return this.bugReporter;
-        }
-        public string getTitle()
-        {
-            return this.title;
-        }
-        public string getKeywords()
-        {
-            return this.keywords;
-        }
-        public string getDescription()
-        {
-            return this.description;
-        }
-        public DateTime getDateReported()
-        {
-            return this.dateReported;
-        }
-        public DateTime getDateResolved()
-        {
-            return this.dateResolved;
-        }
-        public string getAssignee()
-        {
-            return this.assignee;
-        }
-        public string getPriority()
-        {
-            return this.priority;
-        }
-        public string getStatus()
-        {
-            return this.status;
-        }
-        public int getCommentID()
-        {
-            return this.commentID;
-        }
-        public string getCommentDescription()
-        {
-            return this.commentDescription;
-        }
-        public DateTime getCommentTimestamp()
-        {
-            return this.commentTimestamp;
-        }
-        public string getCommenter()
-        {
-            return this.commenter;
-        }
+        public int bugID { get; set; }
+        public string bugReporter { get; set; }
+        public string title { get; set; }
+        public string keywords { get; set; }
+        public string description { get; set; }
+        public DateTime dateReported { get; set; }
+        public DateTime dateResolved { get; set; }
+        public DateTime dateModified { get; set; }
+        public string assignee { get; set; }
+        public string priority { get; set; }
+        public string status { get; set; }
+        public string category { get; set; }
 
         public BugClass()
         {
@@ -110,7 +50,12 @@ namespace BB6
                 this.title = result.Tables["bugDetails"].Rows[0]["title"].ToString();
                 this.keywords = result.Tables["bugDetails"].Rows[0]["keywords"].ToString();
                 this.description = result.Tables["bugDetails"].Rows[0]["description"].ToString();
+                this.category = result.Tables["bugDetails"].Rows[0]["category"].ToString();
                 this.dateReported = DateTime.Parse(result.Tables["bugDetails"].Rows[0]["date_reported"].ToString());
+                if (!string.IsNullOrWhiteSpace(result.Tables["bugDetails"].Rows[0]["date_modified"].ToString()))
+                    this.dateModified = DateTime.Parse(result.Tables["bugDetails"].Rows[0]["date_modified"].ToString());
+                else
+                    this.dateModified = DateTime.Parse(result.Tables["bugDetails"].Rows[0]["date_reported"].ToString());
                 if (!string.IsNullOrWhiteSpace(result.Tables["bugDetails"].Rows[0]["date_resolved"].ToString()))
                     this.dateResolved = DateTime.Parse(result.Tables["bugDetails"].Rows[0]["date_resolved"].ToString());
                 this.assignee = result.Tables["bugDetails"].Rows[0]["assignee"].ToString();
@@ -118,6 +63,7 @@ namespace BB6
                 this.status = result.Tables["bugDetails"].Rows[0]["status"].ToString();
             }
         }
+        //retrieve bugs
         public DataTable getAllBugs()
         {
             DatabaseClass db = new DatabaseClass();
@@ -137,7 +83,86 @@ namespace BB6
 
             return dt;
         }
+        public DataTable getBugsForReview()
+        {
+            DatabaseClass db = new DatabaseClass();
+            MySqlConnection conn = db.getConnection();
+            conn.Open();
 
+            MySqlCommand cmd = conn.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "SELECT * FROM BugDetails WHERE status = 'Fixed'";
+            cmd.Connection = conn;
+
+            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            conn.Close();
+
+            return dt;
+        }
+        public DataTable getAllBugsByBugReporter()
+        {
+            DatabaseClass db = new DatabaseClass();
+            MySqlConnection conn = db.getConnection();
+            conn.Open();
+
+            MySqlCommand cmd = conn.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "SELECT * FROM BugDetails where bugreporter = @username";
+            cmd.Parameters.AddWithValue("@username", bugReporter);
+            cmd.Connection = conn;
+
+            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            conn.Close();
+
+            return dt;
+        }
+        public DataTable getAllBugsForDeveloper()
+        {
+            DatabaseClass db = new DatabaseClass();
+            MySqlConnection conn = db.getConnection();
+            conn.Open();
+
+            MySqlCommand cmd = conn.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "SELECT * FROM BugDetails where assignee = @username";
+            cmd.Parameters.AddWithValue("@username", assignee);
+            cmd.Connection = conn;
+
+            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            conn.Close();
+
+            return dt;
+        }
+        public DataTable getBugsForTriager()
+        {
+            DatabaseClass db = new DatabaseClass();
+            MySqlConnection conn = db.getConnection();
+            conn.Open();
+
+            MySqlCommand cmd = conn.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "SELECT * FROM BugDetails WHERE status = 'New' OR status = 'Verified' ORDER BY date_reported DESC";
+            cmd.Connection = conn;
+
+            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            conn.Close();
+
+            return dt;
+        }
+
+        //search for all users
         public DataTable getBugsByTitle(string title)
         {
             DatabaseClass db = new DatabaseClass();
@@ -147,112 +172,6 @@ namespace BB6
             MySqlCommand cmd = conn.CreateCommand();
             cmd.CommandType = CommandType.Text;
             cmd.CommandText = "SELECT * FROM BugDetails WHERE title LIKE '%" + title + "%'";
-            cmd.Connection = conn;
-
-            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-
-            DataTable dt = new DataTable();
-            da.Fill(dt);
-            conn.Close();
-
-            return dt;
-        }
-        public DataTable getBugsByTitle(string title, string username)
-        {
-            DatabaseClass db = new DatabaseClass();
-            MySqlConnection conn = db.getConnection();
-            conn.Open();
-
-            MySqlCommand cmd = conn.CreateCommand();
-            cmd.CommandType = CommandType.Text;
-            cmd.CommandText = "SELECT * FROM BugDetails WHERE bugreporter = @username AND title LIKE @title";
-            cmd.Parameters.AddWithValue("@username", username);
-            cmd.Parameters.AddWithValue("@title", "%" + title + "%");
-            cmd.Connection = conn;
-
-            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-
-            DataTable dt = new DataTable();
-            da.Fill(dt);
-            conn.Close();
-
-            return dt;
-        }
-
-        public DataTable getBugsByTitleReviewer(string title, string status)
-        {
-            DatabaseClass db = new DatabaseClass();
-            MySqlConnection conn = db.getConnection();
-            conn.Open();
-
-            MySqlCommand cmd = conn.CreateCommand();
-            cmd.CommandType = CommandType.Text;
-            cmd.CommandText = "SELECT * FROM BugDetails WHERE status = @status AND title LIKE @title";
-            cmd.Parameters.AddWithValue("@status", status);
-            cmd.Parameters.AddWithValue("@title", "%" + title + "%");
-            cmd.Connection = conn;
-
-            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-
-            DataTable dt = new DataTable();
-            da.Fill(dt);
-            conn.Close();
-
-            return dt;
-        }
-        public DataTable getBugsByAssignee(string assignee)
-        {
-            DatabaseClass db = new DatabaseClass();
-            MySqlConnection conn = db.getConnection();
-            conn.Open();
-
-            MySqlCommand cmd = conn.CreateCommand();
-            cmd.CommandType = CommandType.Text;
-            cmd.CommandText = "SELECT * FROM BugDetails WHERE assignee LIKE '%"+ assignee +"%'";
-            cmd.Connection = conn;
-
-            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-
-            DataTable dt = new DataTable();
-            da.Fill(dt);
-            conn.Close();
-
-            return dt;
-        }
-
-        public DataTable getBugsByAssignee(string assignee, string username)
-        {
-            DatabaseClass db = new DatabaseClass();
-            MySqlConnection conn = db.getConnection();
-            conn.Open();
-
-            MySqlCommand cmd = conn.CreateCommand();
-            cmd.CommandType = CommandType.Text;
-            cmd.CommandText = "SELECT * FROM BugDetails WHERE bugreporter = @username AND assignee LIKE @assignee";
-            cmd.Parameters.AddWithValue("@username", username);
-            cmd.Parameters.AddWithValue("@assignee", "%" + assignee + "%");
-            cmd.Connection = conn;
-
-            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-
-            DataTable dt = new DataTable();
-            da.Fill(dt);
-            conn.Close();
-
-            return dt;
-        }
-
-        public DataTable getBugsByAssigneeReviewer(string assignee, string status)
-        {
-            DatabaseClass db = new DatabaseClass();
-            MySqlConnection conn = db.getConnection();
-            conn.Open();
-
-            MySqlCommand cmd = conn.CreateCommand();
-            cmd.CommandType = CommandType.Text;
-            cmd.CommandText = "SELECT * FROM BugDetails WHERE bugreporter = @status AND assignee LIKE @assignee";
-            cmd.Parameters.AddWithValue("@status", status);
-            cmd.Parameters.AddWithValue("@assignee", "%" + assignee + "%");
             cmd.Connection = conn;
 
             MySqlDataAdapter da = new MySqlDataAdapter(cmd);
@@ -282,7 +201,69 @@ namespace BB6
 
             return dt;
         }
+        public DataTable getBugsByAssignee(string assignee)
+        {
+            DatabaseClass db = new DatabaseClass();
+            MySqlConnection conn = db.getConnection();
+            conn.Open();
 
+            MySqlCommand cmd = conn.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "SELECT * FROM BugDetails WHERE assignee LIKE '%" + assignee + "%'";
+            cmd.Connection = conn;
+
+            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            conn.Close();
+
+            return dt;
+        }
+
+        //search for bug reporter
+        public DataTable getBugsByTitle(string title, string username)
+        {
+            DatabaseClass db = new DatabaseClass();
+            MySqlConnection conn = db.getConnection();
+            conn.Open();
+
+            MySqlCommand cmd = conn.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "SELECT * FROM BugDetails WHERE bugreporter = @username AND title LIKE @title";
+            cmd.Parameters.AddWithValue("@username", username);
+            cmd.Parameters.AddWithValue("@title", "%" + title + "%");
+            cmd.Connection = conn;
+
+            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            conn.Close();
+
+            return dt;
+        }
+        public DataTable getBugsByAssignee(string assignee, string username)
+        {
+            DatabaseClass db = new DatabaseClass();
+            MySqlConnection conn = db.getConnection();
+            conn.Open();
+
+            MySqlCommand cmd = conn.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "SELECT * FROM BugDetails WHERE bugreporter = @username AND assignee LIKE @assignee";
+            cmd.Parameters.AddWithValue("@username", username);
+            cmd.Parameters.AddWithValue("@assignee", "%" + assignee + "%");
+            cmd.Connection = conn;
+
+            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            conn.Close();
+
+            return dt;
+        }
         public DataTable getBugsByKeywords(string keywords, string username)
         {
             DatabaseClass db = new DatabaseClass();
@@ -305,7 +286,115 @@ namespace BB6
             return dt;
         }
 
-        public DataTable getBugsByKeywordsReviewer(string keywords, string status)
+        //search for bug reporter
+        public DataTable getBugsByTitleForDeveloper(string title, string username)
+        {
+            DatabaseClass db = new DatabaseClass();
+            MySqlConnection conn = db.getConnection();
+            conn.Open();
+
+            MySqlCommand cmd = conn.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "SELECT * FROM BugDetails WHERE assignee = @username AND title LIKE @title";
+            cmd.Parameters.AddWithValue("@username", username);
+            cmd.Parameters.AddWithValue("@title", "%" + title + "%");
+            cmd.Connection = conn;
+
+            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            conn.Close();
+
+            return dt;
+        }
+        public DataTable getBugsByAssigneeForDeveloper(string assignee, string username)
+        {
+            DatabaseClass db = new DatabaseClass();
+            MySqlConnection conn = db.getConnection();
+            conn.Open();
+
+            MySqlCommand cmd = conn.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "SELECT * FROM BugDetails WHERE assignee = @username AND assignee LIKE @assignee";
+            cmd.Parameters.AddWithValue("@username", username);
+            cmd.Parameters.AddWithValue("@assignee", "%" + assignee + "%");
+            cmd.Connection = conn;
+
+            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            conn.Close();
+
+            return dt;
+        }
+        public DataTable getBugsByKeywordsForDeveloper(string keywords, string username)
+        {
+            DatabaseClass db = new DatabaseClass();
+            MySqlConnection conn = db.getConnection();
+            conn.Open();
+
+            MySqlCommand cmd = conn.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "SELECT * FROM BugDetails WHERE assignee = @username AND keywords LIKE @keywords";
+            cmd.Parameters.AddWithValue("@username", username);
+            cmd.Parameters.AddWithValue("@keywords", "%" + keywords + "%");
+            cmd.Connection = conn;
+
+            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            conn.Close();
+
+            return dt;
+        }
+
+        //search for reviewer
+        public DataTable getBugsByTitleReviewer(string title, string status)
+        {
+            DatabaseClass db = new DatabaseClass();
+            MySqlConnection conn = db.getConnection();
+            conn.Open();
+
+            MySqlCommand cmd = conn.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "SELECT * FROM BugDetails WHERE status = @status AND title LIKE @title";
+            cmd.Parameters.AddWithValue("@status", status);
+            cmd.Parameters.AddWithValue("@title", "%" + title + "%");
+            cmd.Connection = conn;
+
+            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            conn.Close();
+
+            return dt;
+        }
+        public DataTable getBugsByAssigneeReviewer(string assignee, string status)
+        {
+            DatabaseClass db = new DatabaseClass();
+            MySqlConnection conn = db.getConnection();
+            conn.Open();
+
+            MySqlCommand cmd = conn.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "SELECT * FROM BugDetails WHERE bugreporter = @status AND assignee LIKE @assignee";
+            cmd.Parameters.AddWithValue("@status", status);
+            cmd.Parameters.AddWithValue("@assignee", "%" + assignee + "%");
+            cmd.Connection = conn;
+
+            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            conn.Close();
+
+            return dt;
+        }
+        public DataTable getBugsByKeywordsForReviewer(string keywords, string status)
         {
             DatabaseClass db = new DatabaseClass();
             MySqlConnection conn = db.getConnection();
@@ -326,7 +415,9 @@ namespace BB6
 
             return dt;
         }
-        public DataTable getDevelopers()
+
+        //search for triager
+        public DataTable getBugsByTitleForTriager(string title)
         {
             DatabaseClass db = new DatabaseClass();
             MySqlConnection conn = db.getConnection();
@@ -334,7 +425,7 @@ namespace BB6
 
             MySqlCommand cmd = conn.CreateCommand();
             cmd.CommandType = CommandType.Text;
-            cmd.CommandText = "SELECT * FROM UserDetails WHERE type = 'D'";
+            cmd.CommandText = "SELECT * FROM BugDetails WHERE title LIKE '%" + title + "%' AND status = 'New' OR status = 'Verified' ORDER BY date_reported DESC";
             cmd.Connection = conn;
 
             MySqlDataAdapter da = new MySqlDataAdapter(cmd);
@@ -344,6 +435,179 @@ namespace BB6
             conn.Close();
 
             return dt;
+        }
+        public DataTable getBugsByKeywordsForTriager(string keywords)
+        {
+            DatabaseClass db = new DatabaseClass();
+            MySqlConnection conn = db.getConnection();
+            conn.Open();
+
+            MySqlCommand cmd = conn.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "SELECT * FROM BugDetails WHERE keywords LIKE '%" + keywords + "%' AND status = 'New' OR status = 'Verified' ORDER BY date_reported DESC";
+            cmd.Connection = conn;
+
+            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            conn.Close();
+
+            return dt;
+        }
+        public DataTable getBugsByAssigneeForTriager(string assignee)
+        {
+            DatabaseClass db = new DatabaseClass();
+            MySqlConnection conn = db.getConnection();
+            conn.Open();
+
+            MySqlCommand cmd = conn.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "SELECT * FROM BugDetails WHERE assignee LIKE '%" + assignee + "%' AND status = 'New' OR status = 'Verified' ORDER BY date_reported DESC";
+            cmd.Connection = conn;
+
+            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            conn.Close();
+
+            return dt;
+        }
+
+        //add
+        public int addFixToBug()
+        {
+            DateTime date = DateTime.Now;
+            DatabaseClass db = new DatabaseClass();
+            MySqlConnection conn = db.getConnection();
+            conn.Open();
+
+            MySqlCommand cmd = conn.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "UPDATE BugDetails SET status = 'Fixed' WHERE bug_id = @bugid";
+            cmd.Parameters.AddWithValue("@bugid", bugID);
+            cmd.Connection = conn;
+            int count = cmd.ExecuteNonQuery();
+            conn.Close();
+
+            if (count != 0)
+                return 0;
+            else
+                return -1;
+        }
+        public int addBug()
+        {
+            DateTime date = DateTime.Now;
+            DatabaseClass db = new DatabaseClass();
+            MySqlConnection conn = db.getConnection();
+            conn.Open();
+
+            MySqlCommand cmd = conn.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "INSERT INTO BugDetails (bugreporter, title, keywords, category, description, date_reported, status) VALUES(@bugreporter, @title, @keywords, @category, @description, @date_reported, @status)";
+            cmd.Parameters.AddWithValue("@bugreporter", bugReporter);
+            cmd.Parameters.AddWithValue("@title", title);
+            cmd.Parameters.AddWithValue("@keywords", keywords);
+            cmd.Parameters.AddWithValue("@description", description);
+            cmd.Parameters.AddWithValue("@date_reported", date);
+            cmd.Parameters.AddWithValue("@category", category);
+            cmd.Parameters.AddWithValue("@status", "New");
+            cmd.Connection = conn;
+            int count = cmd.ExecuteNonQuery();
+            conn.Close();
+
+            if (count != 0)
+                return 0;
+            else
+                return -1;
+        }
+        public int reviewFix()
+        {
+            DateTime date = DateTime.Now;
+            DatabaseClass db = new DatabaseClass();
+            MySqlConnection conn = db.getConnection();
+            conn.Open();
+
+            MySqlCommand cmd = conn.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "UPDATE BugDetails SET status = @status WHERE bug_id = @bugid";
+            cmd.Parameters.AddWithValue("@status", status);
+            cmd.Parameters.AddWithValue("@bugid", bugID);
+            cmd.Connection = conn;
+            int count = cmd.ExecuteNonQuery();
+            conn.Close();
+
+            if (count != 0)
+                return 0;
+            else
+                return -1;
+        }
+        public int assignBug()
+        {
+            DateTime date = DateTime.Now;
+            DatabaseClass db = new DatabaseClass();
+            MySqlConnection conn = db.getConnection();
+            conn.Open();
+
+            MySqlCommand cmd = conn.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "UPDATE BugDetails SET priority = @priority, assignee = @assignee, status = 'Assigned', date_modified = @date_modified WHERE bug_id = @bugid";
+            cmd.Parameters.AddWithValue("@priority", priority);
+            cmd.Parameters.AddWithValue("@assignee", assignee);
+            cmd.Parameters.AddWithValue("@date_modified", date);
+            cmd.Parameters.AddWithValue("@bugid", bugID);
+            cmd.Connection = conn;
+            int count = cmd.ExecuteNonQuery();
+            conn.Close();
+
+            if (count != 0)
+                return 0;
+            else
+                return -1;
+        }
+        public int rejectBug()
+        {
+            DateTime date = DateTime.Now;
+            DatabaseClass db = new DatabaseClass();
+            MySqlConnection conn = db.getConnection();
+            conn.Open();
+
+            MySqlCommand cmd = conn.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "UPDATE BugDetails SET status = 'Rejected', date_modified = @date_modified WHERE bug_id = @bugid";
+            cmd.Parameters.AddWithValue("@date_modified", date);
+            cmd.Parameters.AddWithValue("@bugid", bugID);
+            cmd.Connection = conn;
+            int count = cmd.ExecuteNonQuery();
+            conn.Close();
+
+            if (count != 0)
+                return 0;
+            else
+                return -1;
+        }
+        public int closeBugReport()
+        {
+            DateTime date = DateTime.Now;
+            DatabaseClass db = new DatabaseClass();
+            MySqlConnection conn = db.getConnection();
+            conn.Open();
+
+            MySqlCommand cmd = conn.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "UPDATE BugDetails SET status = 'Closed', date_modified = @date_modified, date_resolved = @date_resolved WHERE bug_id = @bugid";
+            cmd.Parameters.AddWithValue("@date_modified", date);
+            cmd.Parameters.AddWithValue("@date_resolved", date);
+            cmd.Parameters.AddWithValue("@bugid", bugID);
+            cmd.Connection = conn;
+            int count = cmd.ExecuteNonQuery();
+            conn.Close();
+
+            if (count != 0)
+                return 0;
+            else
+                return -1;
         }
     }
 }

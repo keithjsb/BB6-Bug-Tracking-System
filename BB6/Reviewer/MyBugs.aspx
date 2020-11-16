@@ -40,17 +40,17 @@
                                 <th style="width: 15%">Status</th>
                                 <th style="width: 5%">Action</th>
                             </tr>
-                            <asp:Repeater runat="server" ID="Repeater1">
+                            <asp:Repeater runat="server" ID="Repeater1" OnItemDataBound="Repeater1_ItemDataBound">
                                 <ItemTemplate>
                                     <tr>
                                         <td>
                                             <p class="m-0"><%#Eval("title")%></p>
                                             <small class="m-0">#<%#Eval("bug_id")%> submitted on <%#Eval("date_reported")%> by <%#Eval("bugreporter")%></small>
                                         </td>
-                                        <td style="vertical-align:middle"><%#Eval("keywords")%></td>
+                                        <td style="vertical-align:middle" ><asp:Label ID="Label1" runat="server" Text='<%#Eval("keywords")%>' class="border bg-secondary form-rounded text-white"></asp:Label></td>
                                         <td style="vertical-align:middle"><%#Eval("category")%></td>
-                                        <td style="vertical-align:middle"><%#Eval("assignee")%></td>
-                                        <td style="vertical-align:middle"><%#Eval("status")%></td>
+                                        <td style="vertical-align:middle"><asp:Label ID="lblAssignee" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "assignee") %>'></asp:Label></td>
+                                        <td style="vertical-align:middle"><asp:Label ID="lblStatus" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "status") %>'></asp:Label></td>
                                         <td style="vertical-align:middle"><asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl='<%#Eval("bug_id", "~/Reviewer/ViewDetails.aspx?id={0}")%>' CssClass="btn btn-secondary">Details</asp:HyperLink></td>
                                     </tr>
                                 </ItemTemplate>
