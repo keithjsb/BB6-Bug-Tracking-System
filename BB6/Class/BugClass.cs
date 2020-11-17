@@ -7,6 +7,21 @@ using System.Data;
 
 namespace BB6
 {
+    public static class DateTimeExtensions
+    {
+        public static DateTime StartOfWeek(this DateTime dt, DayOfWeek startOfWeek)
+        {
+            int diff = (7 + (dt.DayOfWeek - startOfWeek)) % 7;
+            return dt.AddDays(-1 * diff - 7).Date;
+
+        }
+
+        public static DateTime EndOfWeek(this DateTime dt, DayOfWeek startOfWeek)
+        {
+            int diff = (7 + (dt.DayOfWeek - startOfWeek)) % 7;
+            return dt.AddDays(-1 * diff - 1).Date;
+        }
+    }
     public class BugClass
     {
         public int bugID { get; set; }
@@ -609,5 +624,199 @@ namespace BB6
             else
                 return -1;
         }
+        //REPORT FUNCTIONS
+        public DataTable countReportedWeekly()
+        {
+            string date = DateTime.Now.StartOfWeek(DayOfWeek.Monday).ToString("yyyy-MM-dd h:mm tt");
+            string dateEnd = DateTime.Now.EndOfWeek(DayOfWeek.Monday).ToString("yyyy-MM-dd h:mm tt");
+
+            DatabaseClass db = new DatabaseClass();
+            MySqlConnection conn = db.getConnection();
+            conn.Open();
+
+            MySqlCommand cmd = conn.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "SELECT * FROM BugDetails where date_reported > @date && date_reported < @dateEnd";
+
+            cmd.Parameters.AddWithValue("@dateEnd", dateEnd + "%");
+            cmd.Parameters.AddWithValue("@date", date + "%");
+
+            cmd.Connection = conn;
+
+            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            conn.Close();
+
+            return dt;
+        }
+
+        public DataTable countReportedMontly()
+        {
+            string Month = DateTime.Now.AddMonths(-1).ToString("MM");
+            string Year = DateTime.Now.ToString("yyyy");
+            string currentMonth = Year + "-" + Month;
+
+            string Month_word = DateTime.Now.AddMonths(-1).ToString("MMMM");
+
+            DatabaseClass db = new DatabaseClass();
+            MySqlConnection conn = db.getConnection();
+            conn.Open();
+
+            MySqlCommand cmd = conn.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "SELECT * FROM BugDetails where date_reported LIKE @currentMonth";
+            cmd.Parameters.AddWithValue("@currentMonth", currentMonth + "%");
+
+            cmd.Connection = conn;
+
+            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            conn.Close();
+
+            return dt;
+        }
+
+        public DataTable countResolvedWeekly()
+        {
+            string date = DateTime.Now.StartOfWeek(DayOfWeek.Monday).ToString("yyyy-MM-dd h:mm tt");
+            string dateEnd = DateTime.Now.EndOfWeek(DayOfWeek.Monday).ToString("yyyy-MM-dd h:mm tt");
+
+            DatabaseClass db = new DatabaseClass();
+            MySqlConnection conn = db.getConnection();
+            conn.Open();
+
+            MySqlCommand cmd = conn.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "SELECT * FROM BugDetails where date_resolved > @date && date_resolved < @dateEnd";
+
+            cmd.Parameters.AddWithValue("@dateEnd", dateEnd + "%");
+            cmd.Parameters.AddWithValue("@date", date + "%");
+
+            cmd.Connection = conn;
+
+            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            conn.Close();
+
+            return dt;
+        }
+
+        public DataTable countResolvedMontly()
+        {
+            string Month = DateTime.Now.AddMonths(-1).ToString("MM");
+            string Year = DateTime.Now.ToString("yyyy");
+            string currentMonth = Year + "-" + Month;
+
+            string Month_word = DateTime.Now.AddMonths(-1).ToString("MMMM");
+
+            DatabaseClass db = new DatabaseClass();
+            MySqlConnection conn = db.getConnection();
+            conn.Open();
+
+            MySqlCommand cmd = conn.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "SELECT * FROM BugDetails where date_resolved LIKE @currentMonth";
+            cmd.Parameters.AddWithValue("@currentMonth", currentMonth + "%");
+
+            cmd.Connection = conn;
+
+            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            conn.Close();
+
+            return dt;
+        }
+
+        public DataTable countComments()
+        {
+            string Month = DateTime.Now.AddMonths(-1).ToString("MM");
+            string Year = DateTime.Now.ToString("yyyy");
+            string currentMonth = Year + "-" + Month;
+
+            string date = DateTime.Now.StartOfWeek(DayOfWeek.Monday).ToString("yyyy-MM-dd h:mm tt");
+            string dateEnd = DateTime.Now.EndOfWeek(DayOfWeek.Monday).ToString("yyyy-MM-dd h:mm tt");
+
+            DatabaseClass db = new DatabaseClass();
+            MySqlConnection conn = db.getConnection();
+            conn.Open();
+
+            MySqlCommand cmd = conn.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "SELECT * FROM CommentDetails where comment_date > @date && comment_date < @dateEnd";
+
+            cmd.Parameters.AddWithValue("@currentMonth", currentMonth + "%");
+
+            cmd.Parameters.AddWithValue("@dateEnd", dateEnd + "%");
+            cmd.Parameters.AddWithValue("@date", date + "%");
+
+            cmd.Connection = conn;
+
+            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            conn.Close();
+
+            return dt;
+        }
+
+        public MySqlCommand mostBugsReported()
+        {
+            string Month = DateTime.Now.AddMonths(-1).ToString("MM");
+            string Year = DateTime.Now.ToString("yyyy");
+            string currentMonth = Year + "-" + Month;
+
+            string Month_word = DateTime.Now.AddMonths(-1).ToString("MMMM");
+
+            DatabaseClass db = new DatabaseClass();
+            MySqlConnection conn = db.getConnection();
+            conn.Open();
+
+            MySqlCommand cmd = conn.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "SELECT bugreporter FROM BugDetails where date_reported LIKE @currentMonth GROUP BY bugreporter ORDER BY COUNT(*) DESC LIMIT 1";
+            cmd.Parameters.AddWithValue("@currentMonth", currentMonth + "%");
+
+            cmd.Connection = conn;
+
+            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+
+            return cmd;
+            conn.Close();
+
+        }
+
+        public MySqlCommand mostBugsFixed()
+        {
+            string Month = DateTime.Now.AddMonths(-1).ToString("MM");
+            string Year = DateTime.Now.ToString("yyyy");
+            string currentMonth = Year + "-" + Month;
+
+            string Month_word = DateTime.Now.AddMonths(-1).ToString("MMMM");
+
+            DatabaseClass db = new DatabaseClass();
+            MySqlConnection conn = db.getConnection();
+            conn.Open();
+
+            MySqlCommand cmd = conn.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "SELECT assignee FROM BugDetails WHERE status = 'Fixed' OR status = 'Verified' OR status = 'Closed' GROUP BY assignee ORDER BY COUNT(*) DESC LIMIT 1";
+
+            cmd.Connection = conn;
+
+            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+
+            return cmd;
+            conn.Close();
+
+        }
+
     }
 }
