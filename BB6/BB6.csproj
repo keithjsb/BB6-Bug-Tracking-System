@@ -271,6 +271,7 @@
   <ItemGroup>
     <Content Include="BugReporter\BugReporter.Master" />
     <Content Include="Developer\Developer.Master" />
+    <Content Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <Content Include="Reviewer\Reviewer.Master" />
     <Content Include="Triager\Triager.Master" />

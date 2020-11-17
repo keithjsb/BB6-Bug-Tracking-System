@@ -9,7 +9,7 @@ namespace Testing
     public class LoginTest
     {
         [TestMethod]
-        public void TestBugReporterLoginBugReporter()
+        public void TestLoginBugReporter()
         {
             //Arrange
             string loginID = "benton";
@@ -29,7 +29,7 @@ namespace Testing
         }
 
         [TestMethod]
-        public void TestBugReporterLoginTriager()
+        public void TestLoginTriager()
         {
             //Arrange
             string loginID = "Jazryll";
@@ -49,7 +49,7 @@ namespace Testing
         }
 
         [TestMethod]
-        public void TestBugReporterLoginReviewer()
+        public void TestLoginReviewer()
         {
             //Arrange
             string loginID = "Kamali";
@@ -69,7 +69,7 @@ namespace Testing
         }
 
         [TestMethod]
-        public void TestBugReporterLoginDeveloper()
+        public void TestLoginDeveloper()
         {
             //Arrange
             string loginID = "Keith";
@@ -87,6 +87,7 @@ namespace Testing
             //Assert (https://docs.microsoft.com/en-us/dotnet/api/microsoft.visualstudio.testtools.unittesting.assert.istrue?view=mstest-net-1.3.2) Assert functions
             Assert.IsTrue(keithAccount.validateUser()); // Returns a Bool if the 3 details exists in the database
         }
+
         [TestMethod]
         public void TestComment()
         {
@@ -123,7 +124,29 @@ namespace Testing
             bc.category = category;
             bc.status = status;
 
-            Assert.AreEqual(bc.addBug(), -1);
+            Assert.AreEqual(bc.addBug(), 0);
+        }
+        
+        [TestMethod]
+        public void TestAssignBug()
+        {
+            DateTime date = DateTime.Now;
+
+            BugClass bc = new BugClass();
+            bc.priority = "low";
+            bc.assignee = "nlegonc";
+            bc.dateModified = date;
+            bc.bugID = 1003;
+
+            Assert.AreEqual(bc.assignBug(), 0);
+        }
+
+        [TestMethod]
+        public void TestViewAllBugsDeveloper()
+        {
+            BugClass bc = new BugClass();
+            bc.assignee = "Keith";
+            Assert.AreNotEqual(bc.getAllBugsForDeveloper().Rows.Count, 0);
         }
     }
 }

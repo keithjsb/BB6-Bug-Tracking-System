@@ -24,9 +24,9 @@ namespace BB6.Triager
             BugClass bc = new BugClass();
 
             DataTable reportw = bc.countReportedWeekly();
-            DataTable reportm = bc.countReportedMontly();
+            DataTable reportm = bc.countReportedMonthly();
             DataTable resolvew = bc.countResolvedWeekly();
-            DataTable resolvem = bc.countResolvedMontly();
+            DataTable resolvem = bc.countResolvedMonthly();
             DataTable commentw = bc.countComments();
             MySqlCommand reporter = bc.mostBugsReported();
             MySqlCommand dev = bc.mostBugsFixed();

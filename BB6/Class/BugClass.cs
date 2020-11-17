@@ -651,7 +651,7 @@ namespace BB6
             return dt;
         }
 
-        public DataTable countReportedMontly()
+        public DataTable countReportedMonthly()
         {
             string Month = DateTime.Now.AddMonths(-1).ToString("MM");
             string Year = DateTime.Now.ToString("yyyy");
@@ -704,7 +704,7 @@ namespace BB6
             return dt;
         }
 
-        public DataTable countResolvedMontly()
+        public DataTable countResolvedMonthly()
         {
             string Month = DateTime.Now.AddMonths(-1).ToString("MM");
             string Year = DateTime.Now.ToString("yyyy");

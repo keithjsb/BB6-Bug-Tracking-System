@@ -1,0 +1,172 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="BB6.BugReporter.BugReporter">
+    <Position X="2.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAICAgAAAAAAAAAAAAAABAAAAAAAAAgAAAAIAAAA=</HashCode>
+      <FileName>BugReporter\BugReporter.Master.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BB6.BugReporter.Home">
+    <Position X="2.25" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAABgAAAAAAAACABAAAAAAAAAAIAAAAAQBAAICAAY=</HashCode>
+      <FileName>BugReporter\Home.aspx.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BB6.BugReporter.MyBugs">
+    <Position X="2.25" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAgAAAAAAAACABAAAAAAAAAAIAAAAAQBAAKCAAY=</HashCode>
+      <FileName>BugReporter\MyBugs.aspx.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BB6.BugReporter.SubmitBugs">
+    <Position X="2.25" Y="19" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAgAEAAABAAIAAAAAAAIAEABAABAEIAIgU=</HashCode>
+      <FileName>BugReporter\SubmitBugs.aspx.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BB6.BugReporter.ViewDetails">
+    <Position X="2.25" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABRAgEEAEAAACKCACAoBBAQAAAAAAABwAAQIAAgA=</HashCode>
+      <FileName>BugReporter\ViewDetails.aspx.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BB6.DateTimeExtensions" Collapsed="true">
+    <Position X="7.75" Y="1.75" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAEAAAAAAAAAQAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Class\BugClass.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BB6.BugClass">
+    <Position X="7.75" Y="2.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AASGIAYARBQAABAINAQCAABBEIGkQAoQKJAIQAABACg=</HashCode>
+      <FileName>Class\BugClass.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BB6.CommentClass">
+    <Position X="11.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgACAAAAAAAACAAAAAACAAAAACACwAABAAAAAAAQAAA=</HashCode>
+      <FileName>Class\CommentClass.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BB6.DatabaseClass">
+    <Position X="13" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAEQBAAAAAAAAAAAQAAAAAAAAAAgAAAAI=</HashCode>
+      <FileName>Class\DatabaseClass.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BB6.UserClass">
+    <Position X="14.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAAAAAAAAAEAAAAJAAAAAAAAAgAAAAA=</HashCode>
+      <FileName>Class\UserClass.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BB6.Login" Collapsed="true">
+    <Position X="16.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAABAAAAAhAEAAAAAAAEAAIAAACAAIAAAAAAJAEgQ=</HashCode>
+      <FileName>Login.aspx.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BB6.Developer.Developer">
+    <Position X="0.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAICAgAAAAAAAAAAAAAABIAAAAAAAAgAAAAIAAAA=</HashCode>
+      <FileName>Developer\Developer.Master.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BB6.Developer.Home">
+    <Position X="0.5" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAABAAAAAAAAACABAAAAAAAAAAIAAgAAQBAAICAAY=</HashCode>
+      <FileName>Developer\Home.aspx.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BB6.Developer.MyBugs">
+    <Position X="0.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAACABAAAAAAAAAAIAAgAAQBAAKCAAY=</HashCode>
+      <FileName>Developer\MyBugs.aspx.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BB6.Developer.ViewDetails">
+    <Position X="0.5" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABRAgEEAEAAACKCACAoBBAYAAAAAAABwAAQoAAgA=</HashCode>
+      <FileName>Developer\ViewDetails.aspx.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BB6.Reviewer.Home">
+    <Position X="4" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAABAAAAAAAAACABAAAAAAAAAAIAAgAAQBAAICAAY=</HashCode>
+      <FileName>Reviewer\Home.aspx.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BB6.Reviewer.MyBugs">
+    <Position X="4" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAABAAAAAAAAACABAAAAAAAAAAIAAgAAQBAAICAAY=</HashCode>
+      <FileName>Reviewer\MyBugs.aspx.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BB6.Reviewer.Reviewer">
+    <Position X="4" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAICAgAAAAAAAAAAAAAABIAAAAAAAAgAAAAIAAAA=</HashCode>
+      <FileName>Reviewer\Reviewer.Master.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BB6.Reviewer.ViewDetails">
+    <Position X="4" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABRAgEEASAAACKCACA4hBAQBAAAEAABwAAUIAAgA=</HashCode>
+      <FileName>Reviewer\ViewDetails.aspx.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BB6.Triager.GenerateReport">
+    <Position X="5.75" Y="20.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAIBAAAAAgAQCAAAAAAAAAEAAAAAAAAAIAAAAIAAAA=</HashCode>
+      <FileName>Triager\GenerateReport.aspx.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BB6.Triager.Home">
+    <Position X="5.75" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAABAAAAAAAAACABAAAAAAAAAAIAAgAAQBAAICAAY=</HashCode>
+      <FileName>Triager\Home.aspx.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BB6.Triager.ManageBugs">
+    <Position X="5.75" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAgAAAAAAAACABAAAAAIAAAAIAAAAAQBAAICAAY=</HashCode>
+      <FileName>Triager\ManageBugs.aspx.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BB6.Triager.Triager">
+    <Position X="5.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAICAgAAAAAAAAAAAAAABIAAAAAAAAgAAAAIAAAA=</HashCode>
+      <FileName>Triager\Triager.Master.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BB6.Triager.ViewDetails">
+    <Position X="5.75" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABRAgEEAAAAACKCACAphBAQBAAABAQBwAAUIAAgA=</HashCode>
+      <FileName>Triager\ViewDetails.aspx.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
