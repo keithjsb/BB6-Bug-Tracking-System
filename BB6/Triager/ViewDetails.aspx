@@ -32,7 +32,7 @@
                                             </div>
                                             <div class="form-group form-inline">
                                                 
-                                                <button id="btnSubmit" runat="server" onserverclick="btnSubmit_Click" class="btn btn-success">Update report</button>
+                                                <button id="btnSubmit" runat="server" onserverclick="updateReport" class="btn btn-success">Update report</button>
                                             </div>
                                         </div>
                                         <div class="d-flex justify-content-end mt-2 m-0 p-0">

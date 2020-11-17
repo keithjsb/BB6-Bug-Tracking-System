@@ -27,15 +27,19 @@ namespace BB6.Triager
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            countReportedWeekly();
+            countReportedWeekly(); // bc.countReportedWeekly() <-- return(string)
             countReportedMontly();
             countResolvedWeekly();
             countResolvedMontly();
-            countComments();
+            countComments(); // CommentClass
             mostBugsReported();
             mostBugsFixed();
         }
 
+        private void generateReport() //link to button
+        {
+
+        }
         private void countReportedWeekly()
         {
             string date = DateTime.Now.StartOfWeek(DayOfWeek.Monday).ToString("yyyy-MM-dd h:mm tt");

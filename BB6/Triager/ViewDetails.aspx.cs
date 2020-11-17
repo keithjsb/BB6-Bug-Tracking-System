@@ -8,10 +8,6 @@ namespace BB6.Triager
 {
     public partial class ViewDetails : System.Web.UI.Page
     {
-        MySqlConnection con;
-        DataTable dt = new DataTable();
-        DatabaseClass db = new DatabaseClass();
-
         string id;
 
         protected void Page_Load(object sender, EventArgs e)
@@ -108,7 +104,7 @@ namespace BB6.Triager
             CommentCountLabel.Text = "&bull; " + cc.countCommentsByID() + " comments";
         }
 
-        protected void btnSubmit_Click(object sender, EventArgs e)
+        protected void updateReport(object sender, EventArgs e)
         {
 
             if (Page.IsValid)
